@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import HomePage from "./components/HomePage";
+import TournamentSelection from "./components/TournamentSelection";
+import Game from "./components/Game";
+import Admin from "./components/admin";
+import Song from "./components/admin/Song";
+import Collect from "./components/admin/Collect";
+import Tournament from "./components/admin/Tournament";
+
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route path="/TourSelect">
+            <TournamentSelection />
+          </Route>
+          <Route path="/Tour/:TourID">
+            <Game />
+          </Route>
+          <Route path="/Edit/Song">
+            <Song />
+          </Route>
+          <Route path="/Edit/Collect">
+            <Collect />
+          </Route>
+          <Route path="/Edit/Tournament">
+            <Tournament />
+          </Route>
+          <Route path="/Edit">
+            <Admin />
+          </Route>
+          <Route path="/">
+            <HomePage />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
