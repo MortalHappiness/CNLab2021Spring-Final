@@ -12,7 +12,7 @@ import { positions } from '@material-ui/system';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from '@material-ui/core/Typography';
-import img from "./bg.jpg";
+
 import { Container } from "@material-ui/core";
 
 import IconButton from '@material-ui/core/IconButton'
@@ -20,38 +20,21 @@ import MenuIcon from '@material-ui/icons/Menu'
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-const typo_styles = makeStyles((theme) => ({
-  header: {
-    padding: theme.spacing(1),
+import PlayArrowTwoToneIcon from '@material-ui/icons/PlayArrowTwoTone';
+import PlaylistPlayTwoToneIcon from '@material-ui/icons/PlaylistPlayTwoTone';
+import PlaylistAddTwoToneIcon from '@material-ui/icons/PlaylistAddTwoTone';
 
-    color: 'white',
-    fontSize: 150,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
-  },
-  sign: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
-  }
-}));
+import img from "./bg.jpg";
+import img_light from "./bg_light.jpg";
+import img_dark from "./bg_dark.jpg";
 
-const background_styles = {
-  main: {
-    backgroundImage: `url(${img})`,
-    width: '100%',
-  }
-};
-
+//Styles
 const button_styles = makeStyles({
   blue: {
-    background: '#76D7C4',
+    background: '#a994f0',
     border: 0,
-    borderRadius: 3,
-    color: 'white',
+    borderRadius: 6,
+    color: '#white',
     height: 48,
     padding: '0 30px',
     margin: 32,
@@ -78,6 +61,47 @@ const bar_styles = makeStyles((theme) => ({
   }
 }));
 
+const typo_styles = makeStyles((theme) => ({
+  header: {
+    padding: theme.spacing(1),
+
+    color: 'white',
+    fontSize: 150,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
+  },
+  sign: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    fontSize: 20,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
+  },
+  subheader: {
+    padding: theme.spacing(1),
+
+    color: 'white',
+    fontSize: 60,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
+  }
+}));
+
+const background_styles = {
+  main: {
+    backgroundImage: `url(${img})`,
+    width: '100%',
+  },
+  light: {
+    backgroundImage: `url(${img_light})`,
+    width: '100%',
+  },
+  dark: {
+    backgroundImage: `url(${img_dark})`,
+    width: '100%',
+  },
+};
 //
 
 function randint(min, max) {
@@ -99,6 +123,7 @@ export default function HomePage() {
       .catch((e) => console.error(e));
   };
 
+  //menu
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -112,7 +137,6 @@ export default function HomePage() {
   const tourselect = () => {
     setAnchorEl(null);
   };
-
   //
   const button = button_styles();
   const typo = typo_styles();
@@ -120,17 +144,24 @@ export default function HomePage() {
   //
   return (
     <>
-      <Box position="relative" height="95vh" display="flex" flexDirection="column" style={background_styles.main}>
+      <Box position="relative"
+        height="95vh"
+        display="flex"
+        flexDirection="column"
+        style={background_styles.main}>
         <div>
           <h1 className={typo.header}>Million $inger</h1>
           <Button
+            startIcon={<PlayArrowTwoToneIcon fontSize={'large'} />}
             className={button.blue}
             variant="contained"
             color="primary"
-            onClick={startNow}>
+            onClick={startNow}
+          >
             Start Now
           </Button>
           <Button className={button.blue}
+            startIcon={<PlaylistPlayTwoToneIcon fontsize={'large'} />}
             variant="contained"
             color="primary"
             component={Link}
@@ -139,6 +170,7 @@ export default function HomePage() {
             Select Tournament
           </Button>
           <Button
+            startIcon={<PlaylistAddTwoToneIcon fontSize={'large'} />}
             className={button.blue}
             variant="contained"
             color="primary"
@@ -153,7 +185,7 @@ export default function HomePage() {
         <div className={bar.above}>
           <AppBar
             position="static"
-            style={{ background: '#17202A' }}>
+            style={{ background: '#0c032b' }}>
             <Toolbar variant="dense">
               <IconButton
                 aria-controls="simple-menu"
@@ -175,7 +207,6 @@ export default function HomePage() {
                   to="/">
                   Home
                 </MenuItem>
-                <MenuItem onClick={startNow}>Start Now</MenuItem>
                 <MenuItem
                   component={Link}
                   to="/TourSelect">
@@ -189,7 +220,7 @@ export default function HomePage() {
               </Menu>
 
               <b className={typo.sign}>
-                CNL gourp#7
+                CNL gourp #7
 		          </b>
 
               <div className={bar.loginbutton}>
