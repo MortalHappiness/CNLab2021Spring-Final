@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { SERVER_URL } from "../../constants.json";
+import Button from "@material-ui/core/Button";
 
 export default function Tournament({ tourID, updatePlayCollect }) {
   const [collects, setCollects] = useState([]);
@@ -26,15 +27,15 @@ export default function Tournament({ tourID, updatePlayCollect }) {
   return (
     <div>
       <h2>Tournament #{tourID}</h2>
-      <ul>
-        {collects.map((collect) => (
-          <li key={collect.id}>
-            <button onClick={() => fetchCollectSongs(collect.id)}>
-              {collect.title}
-            </button>
-          </li>
-        ))}
-      </ul>
+      {collects.map((collect) => (
+        <Button
+          onClick={() => fetchCollectSongs(collect.id)}
+          variant="contained"
+          color="primary"
+        >
+          {collect.title}
+        </Button>
+      ))}
     </div>
   );
 }

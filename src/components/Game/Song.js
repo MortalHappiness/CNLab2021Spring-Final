@@ -1,4 +1,9 @@
 import React, { useState, useRef } from "react";
+import Button from "@material-ui/core/Button";
+
+//
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import IconButton from '@material-ui/core/IconButton'
 
 function renderHiddenAnswerLine(cur_line) {
   let line = "";
@@ -111,14 +116,28 @@ export default function Song({ song }) {
         </h2>
       )}
       <div id="player" />
-      {isNotStart && <button onClick={playVideo}>play</button>}
+      {isNotStart && <IconButton 
+      variant="contained"
+      color="secondary"
+      onClick={playVideo}>
+      <PlayCircleOutlineIcon fontSize={'large'} color='primary'/>  
+        
+      </IconButton>}
       <h4>{prevLine}</h4>
       <h2>{line}</h2>
       <h4>{nextLine}</h4>
-      {missLyrics && <button onClick={showMissLyrics}>Show Answer</button>}
+      {missLyrics && <Button 
+      variant="contained"
+      color="secondary"
+      onClick={showMissLyrics}>Show Answer
+      </Button>}
       <br />
       {showContinuePlay && (
-        <button onClick={continuePlaying}>Continue Playing</button>
+      <Button 
+      variant="contained"
+      color="secondary"
+      onClick={continuePlaying}>Continue Playing
+      </Button>
       )}
     </div>
   );

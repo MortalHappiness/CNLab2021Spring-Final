@@ -1,6 +1,7 @@
 import React from "react";
 
 import { SERVER_URL } from "../../constants.json";
+import Button from "@material-ui/core/Button";
 
 export default function Collect({ updatePlaySong, collect }) {
   const fetchSong = (songID) => {
@@ -17,11 +18,12 @@ export default function Collect({ updatePlaySong, collect }) {
       <ul>
         {collect &&
           collect.songs.map((song) => (
-            <li key={song.id}>
-              <button onClick={() => fetchSong(song.id)}>
-                {song.singer} {song.name}
-              </button>
-            </li>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => fetchSong(song.id)}>
+              {song.singer} {song.name}
+            </Button>
           ))}
       </ul>
     </div>
