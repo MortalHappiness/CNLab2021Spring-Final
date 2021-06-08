@@ -3,22 +3,16 @@ import { Link, useHistory } from "react-router-dom";
 
 import { SERVER_URL } from "../constants.json";
 
+import Box from '@material-ui/core/Box';
 import Button from "@material-ui/core/Button";
 
-//
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import { positions } from '@material-ui/system';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from '@material-ui/core/Typography';
 
-import { Container } from "@material-ui/core";
-
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '@material-ui/icons/Menu'
+import IconButton from '@material-ui/core/IconButton'
 
 import PlayArrowTwoToneIcon from '@material-ui/icons/PlayArrowTwoTone';
 import PlaylistPlayTwoToneIcon from '@material-ui/icons/PlaylistPlayTwoTone';
@@ -33,6 +27,24 @@ function randint(min, max) {
 }
 
 export default function HomePage() {
+
+  //menu and style
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const tourselect = () => {
+    setAnchorEl(null);
+  };
+  const button = button_styles();
+  const typo = typo_styles();
+  const bar = bar_styles();
+  const background = background_styles();
+  //
+
   const history = useHistory();
 
   const startNow = () => {
@@ -45,26 +57,6 @@ export default function HomePage() {
       .catch((e) => console.error(e));
   };
 
-  //menu
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const tourselect = () => {
-    setAnchorEl(null);
-  };
-  //
-  const button = button_styles();
-  const typo = typo_styles();
-  const bar = bar_styles();
-  const background = background_styles();
-  //
   return (
     <>
       <Box position="relative"

@@ -1,34 +1,14 @@
 import React, { useState, useRef } from "react";
-import Button from "@material-ui/core/Button";
 
-//
-import theme_styles from "../../theme.js"
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import img from "../bg.jpg";
-import img_light from "../bg_light.jpg";
-import img_dark from "../bg_dark.jpg";
+import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
 
-
-
-const background_styles = {
-  main: {
-    backgroundImage: `url(${img})`,
-    width: '100%',
-  },
-  light: {
-    backgroundImage: `url(${img_light})`,
-    width: '100%',
-  },
-  dark: {
-    backgroundImage: `url(${img_dark})`,
-    width: '100%',
-  },
-};
+import { button_styles, bar_styles, typo_styles, background_styles } from "../utils.js";
 
 const lyric_styles = {
   main: {
@@ -51,8 +31,8 @@ const lyric_styles = {
 
 const botton_styles = {
   main: {
-	  display: "inline-block",
-   },
+    display: "inline-block",
+  },
 };
 
 function renderHiddenAnswerLine(cur_line) {
@@ -68,6 +48,23 @@ function renderHiddenAnswerLine(cur_line) {
 }
 
 export default function Song({ song }) {
+  //menu and style
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const tourselect = () => {
+    setAnchorEl(null);
+  };
+  const button = button_styles();
+  const typo = typo_styles();
+  const bar = bar_styles();
+  const background = background_styles();
+  //
+
   const YT = window.YT;
   const player = useRef(null);
 
@@ -159,44 +156,44 @@ export default function Song({ song }) {
   };
 
   return (
-	<Box position="relative"
-        height="95vh"
-        display="flex"
-        flexDirection="column"
-        style={background_styles.light}>
-		<div>
-		  {song && (
-			<Typography variant="h2" color="primary" fontSize={150} fontFamily='DejaVu Sans Mono, monospace' fontStyle='normal'>
-			  {song.name} - {song.singer}
-			</Typography>
-		  )}
-		  <div id="player" />
-		  {isNotStart && <IconButton 
-		  variant="contained"
-		  color="secondary"
-		  onClick={playVideo}>
-		  <PlayCircleOutlineIcon fontSize={'large'} color='primary'/>  
-			
-		  </IconButton>}
-		  <h4>{prevLine}</h4>
-		  <Typography variant="h1" style={lyric_styles.main}>{line}</Typography>
-		  <h4>{nextLine}</h4>
-		  {missLyrics && <Button 
-		  variant="contained"
-		  color="secondary"
-		  style={botton_styles.main}
-		  onClick={showMissLyrics}>Show Answer
+    <Box position="relative"
+      height="95vh"
+      display="flex"
+      flexDirection="column"
+      className={background.main}>
+      <div>
+        {song && (
+          <Typography variant="h2" color="primary" fontSize={150} fontFamily='DejaVu Sans Mono, monospace' fontStyle='normal'>
+            {song.name} - {song.singer}
+          </Typography>
+        )}
+        <div id="player" />
+        {isNotStart && <IconButton
+          variant="contained"
+          color="secondary"
+          onClick={playVideo}>
+          <PlayCircleOutlineIcon fontSize={'large'} color='primary' />
+
+        </IconButton>}
+        <h4>{prevLine}</h4>
+        <Typography variant="h1" style={lyric_styles.main}>{line}</Typography>
+        <h4>{nextLine}</h4>
+        {missLyrics && <Button
+          variant="contained"
+          color="secondary"
+          style={botton_styles.main}
+          onClick={showMissLyrics}>Show Answer
 		  </Button>}
-		  <br />
-		  {showContinuePlay && (
-		  <Button 
-		  variant="contained"
-		  color="secondary"
-		  style={botton_styles.main}
-		  onClick={continuePlaying}>Continue Playing
-		  </Button>
-		  )}
-		</div>
-	</Box>
+        <br />
+        {showContinuePlay && (
+          <Button
+            variant="contained"
+            color="secondary"
+            style={botton_styles.main}
+            onClick={continuePlaying}>Continue Playing
+          </Button>
+        )}
+      </div>
+    </Box>
   );
 }
