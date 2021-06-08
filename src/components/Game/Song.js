@@ -20,20 +20,20 @@ import { button_styles, bar_styles, typo_styles, background_styles } from "../ut
 
 const lyric_styles = {
   main: {
-    color: "white",
-    fontSize: 40,
+    color: "#cab1f6",
+    fontSize: 30,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
   },
   front: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
     color: "#404040",
 
   },
   behind: {
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
     color: "#404040",
@@ -43,23 +43,25 @@ const lyric_styles = {
 const botton_styles = {
   main: {
     display: "inline-block",
-    color:"white"
+    color: "white"
   },
   other: {
     display: "inline-block",
-    color:"white"
+    color: "white"
   },
 };
 
 const lyrics_box_styles = {
   root: {
-    background: "linear-gradient(90deg, #cab1f6,#f2cc97 )",
+    background: "white",
     marginLeft: "25%",
     marginRight: "25%",
-    borderRadius: 50,
-    backgroundColor: 'transparent',
+    borderRadius: 20, 
     boxShadow: 'none',
   },
+  transparent: {
+    marginTop: "7%",
+  }
 };
 
 
@@ -156,8 +158,8 @@ export default function Song({ song }) {
 
   const initYoutube = () => {
     player.current = new YT.Player("player", {
-      width: 600,
-      height: 400,
+      width: 960,
+      height: 640,
       videoId: song.video_id,
       playerVars: {
         cc_load_policy: 0,
@@ -191,7 +193,7 @@ export default function Song({ song }) {
           height="95vh"
           display="flex"
           flexDirection="column"
-          className={background.main}>
+          className={background.dark}>
           <div>
             {song && (
               <h2 className={typo.songheader}>
@@ -203,38 +205,41 @@ export default function Song({ song }) {
               variant="secondary"
               color="error"
               onClick={playVideo}>
-              <PlayCircleOutlineIcon fontSize={'large'}/>
+              <PlayCircleOutlineIcon fontSize={'large'} />
             </IconButton>}
 
+            <Box style={lyrics_box_styles.transparent}>
 
-            <Typography variant="subtitle1" style={lyric_styles.front}>{prevLine}</Typography>
+            </Box>
             <Box
               style={lyrics_box_styles.root}
               display="flex"
               flexDirection="column"
               justifyContent="center">
-              <Typography variant="subtitle1" style={lyric_styles.main}>{line}</Typography>
-            </Box>
-            <Typography variant="subtitle1" style={lyric_styles.behind}>{nextLine}</Typography>
+              <Typography variant="subtitle1" style={lyric_styles.front}>{prevLine}</Typography>
 
+              <Typography variant="subtitle1" style={lyric_styles.main}>{line}</Typography>
+
+              <Typography variant="subtitle1" style={lyric_styles.behind}>{nextLine}</Typography>
+            </Box>
 
             <ButtonGroup>
-            {missLyrics && <Button
-              variant="contained"
-              color="primary"
-              style={botton_styles.main}
-              onClick={showMissLyrics}>Show Answer
-            </Button>}
-            <br />
-            {showContinuePlay && (
-              <Button
+              {missLyrics && <Button
                 variant="contained"
                 color="primary"
-                style={botton_styles.other}
-                onClick={continuePlaying}>Continue Playing
-              </Button>
-              
-            )}
+                style={botton_styles.main}
+                onClick={showMissLyrics}>Show Answer
+            </Button>}
+              <br />
+              {showContinuePlay && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={botton_styles.other}
+                  onClick={continuePlaying}>Continue Playing
+                </Button>
+
+              )}
             </ButtonGroup>
           </div>
         </Box>

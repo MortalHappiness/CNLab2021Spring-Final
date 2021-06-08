@@ -49,7 +49,7 @@ export default function TournamentSelection() {
     const array = [];
     for (let i = 1; i <= NTours; ++i) {
       array.push(
-        <Box m={2}>
+        <Box m={4}>
           <Button
             key={i}
             variant="contained"
@@ -72,7 +72,7 @@ export default function TournamentSelection() {
         height="95vh"
         display="flex"
         flexDirection="column"
-        className={background.main}>
+        className={background.dark}>
         <div>
           <h2 className={typo.subheader}>Tournament Selection</h2>
           {tournaments}

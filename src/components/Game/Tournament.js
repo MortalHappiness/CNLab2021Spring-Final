@@ -63,7 +63,7 @@ export default function Tournament({ tourID, updatePlayCollect }) {
         height="95vh"
         display="flex"
         flexDirection="column"
-        className={background.main}>
+        className={background.dark}>
 
         <div>
           <h2 className={typo.subheader}>Tournament #{tourID}</h2>
