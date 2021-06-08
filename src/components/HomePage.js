@@ -24,85 +24,7 @@ import PlayArrowTwoToneIcon from '@material-ui/icons/PlayArrowTwoTone';
 import PlaylistPlayTwoToneIcon from '@material-ui/icons/PlaylistPlayTwoTone';
 import PlaylistAddTwoToneIcon from '@material-ui/icons/PlaylistAddTwoTone';
 
-import img from "./bg.jpg";
-import img_light from "./bg_light.jpg";
-import img_dark from "./bg_dark.jpg";
-
-//Styles
-const button_styles = makeStyles({
-  blue: {
-    background: '#a994f0',
-    border: 0,
-    borderRadius: 6,
-    color: '#white',
-    height: 48,
-    padding: '0 30px',
-    margin: 32,
-    fontSize: 30,
-    fontFamily: 'monospace',
-  },
-  white: {
-    fontFamily: 'monospace',
-    fontSize: 20,
-    color: 'white',
-  }
-});
-
-const bar_styles = makeStyles((theme) => ({
-  above: {
-    flexGrow: 1,
-    color: "#283747",
-  },
-  loginbutton: {
-    marginLeft: 'auto',
-  },
-  menubutton: {
-    color: 'white'
-  }
-}));
-
-const typo_styles = makeStyles((theme) => ({
-  header: {
-    padding: theme.spacing(1),
-
-    color: 'white',
-    fontSize: 150,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
-  },
-  sign: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
-  },
-  subheader: {
-    padding: theme.spacing(1),
-
-    color: 'white',
-    fontSize: 60,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
-  }
-}));
-
-const background_styles = {
-  main: {
-    backgroundImage: `url(${img})`,
-    width: '100%',
-  },
-  light: {
-    backgroundImage: `url(${img_light})`,
-    width: '100%',
-  },
-  dark: {
-    backgroundImage: `url(${img_dark})`,
-    width: '100%',
-  },
-};
-//
+import { button_styles, bar_styles, typo_styles, background_styles} from "./utils.js";
 
 function randint(min, max) {
   min = Math.ceil(min);
@@ -141,6 +63,7 @@ export default function HomePage() {
   const button = button_styles();
   const typo = typo_styles();
   const bar = bar_styles();
+  const background = background_styles();
   //
   return (
     <>
@@ -148,7 +71,7 @@ export default function HomePage() {
         height="95vh"
         display="flex"
         flexDirection="column"
-        style={background_styles.main}>
+        className={background.main}>
         <div>
           <h1 className={typo.header}>Million $inger</h1>
           <Button
