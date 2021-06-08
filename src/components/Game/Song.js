@@ -6,6 +6,55 @@ import theme_styles from "../../theme.js"
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import IconButton from '@material-ui/core/IconButton'
 
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import img from "../bg.jpg";
+import img_light from "../bg_light.jpg";
+import img_dark from "../bg_dark.jpg";
+import Typography from '@material-ui/core/Typography';
+
+
+
+const background_styles = {
+  main: {
+    backgroundImage: `url(${img})`,
+    width: '100%',
+  },
+  light: {
+    backgroundImage: `url(${img_light})`,
+    width: '100%',
+  },
+  dark: {
+    backgroundImage: `url(${img_dark})`,
+    width: '100%',
+  },
+};
+
+const lyric_styles = {
+  main: {
+    color: "#F00",
+    fontSize: 25,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
+  },
+  front: {
+    fontSize: 20,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
+  },
+  behind: {
+    fontSize: 20,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
+  },
+};
+
+const botton_styles = {
+  main: {
+	  display: "inline-block",
+   },
+};
+
 function renderHiddenAnswerLine(cur_line) {
   let line = "";
   for (let i = 0; i < cur_line.length; i++) {
@@ -110,36 +159,44 @@ export default function Song({ song }) {
   };
 
   return (
-    <div>
-      {song && (
-        <h2>
-          {song.name} - {song.singer}
-        </h2>
-      )}
-      <div id="player" />
-      {isNotStart && <IconButton 
-      variant="contained"
-      color="secondary"
-      onClick={playVideo}>
-      <PlayCircleOutlineIcon fontSize={'large'} color='primary'/>  
-        
-      </IconButton>}
-      <h4>{prevLine}</h4>
-      <h2>{line}</h2>
-      <h4>{nextLine}</h4>
-      {missLyrics && <Button 
-      variant="contained"
-      color="secondary"
-      onClick={showMissLyrics}>Show Answer
-      </Button>}
-      <br />
-      {showContinuePlay && (
-      <Button 
-      variant="contained"
-      color="secondary"
-      onClick={continuePlaying}>Continue Playing
-      </Button>
-      )}
-    </div>
+	<Box position="relative"
+        height="95vh"
+        display="flex"
+        flexDirection="column"
+        style={background_styles.light}>
+		<div>
+		  {song && (
+			<Typography variant="h2" color="primary" fontSize={150} fontFamily='DejaVu Sans Mono, monospace' fontStyle='normal'>
+			  {song.name} - {song.singer}
+			</Typography>
+		  )}
+		  <div id="player" />
+		  {isNotStart && <IconButton 
+		  variant="contained"
+		  color="secondary"
+		  onClick={playVideo}>
+		  <PlayCircleOutlineIcon fontSize={'large'} color='primary'/>  
+			
+		  </IconButton>}
+		  <h4>{prevLine}</h4>
+		  <Typography variant="h1" style={lyric_styles.main}>{line}</Typography>
+		  <h4>{nextLine}</h4>
+		  {missLyrics && <Button 
+		  variant="contained"
+		  color="secondary"
+		  style={botton_styles.main}
+		  onClick={showMissLyrics}>Show Answer
+		  </Button>}
+		  <br />
+		  {showContinuePlay && (
+		  <Button 
+		  variant="contained"
+		  color="secondary"
+		  style={botton_styles.main}
+		  onClick={continuePlaying}>Continue Playing
+		  </Button>
+		  )}
+		</div>
+	</Box>
   );
 }
