@@ -59,6 +59,14 @@ export const typo_styles = makeStyles((theme) => ({
     fontSize: 60,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
+  },
+  songheader: {
+    padding: theme.spacing(1),
+
+    color: 'white',
+    fontSize: 50,
+    fontFamily: 'DejaVu Sans Mono, monospace',
+    fontStyle: 'normal',
   }
 }));
 

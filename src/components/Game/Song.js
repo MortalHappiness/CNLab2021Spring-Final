@@ -1,39 +1,68 @@
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import IconButton from '@material-ui/core/IconButton'
 
-import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from "@material-ui/core/Button";
 import Typography from '@material-ui/core/Typography';
+
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuIcon from '@material-ui/icons/Menu'
+import IconButton from '@material-ui/core/IconButton'
 
 import { button_styles, bar_styles, typo_styles, background_styles } from "../utils.js";
 
 const lyric_styles = {
   main: {
-    color: "#F00",
-    fontSize: 25,
+    color: "white",
+    fontSize: 40,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
   },
   front: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
+    color: "#404040",
+
   },
   behind: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'DejaVu Sans Mono, monospace',
     fontStyle: 'normal',
+    color: "#404040",
   },
 };
 
 const botton_styles = {
   main: {
     display: "inline-block",
+    color:"white"
+  },
+  other: {
+    display: "inline-block",
+    color:"white"
   },
 };
+
+const lyrics_box_styles = {
+  root: {
+    background: "linear-gradient(90deg, #cab1f6,#f2cc97 )",
+    marginLeft: "25%",
+    marginRight: "25%",
+    borderRadius: 50,
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+  },
+};
+
+
 
 function renderHiddenAnswerLine(cur_line) {
   let line = "";
@@ -156,44 +185,111 @@ export default function Song({ song }) {
   };
 
   return (
-    <Box position="relative"
-      height="95vh"
-      display="flex"
-      flexDirection="column"
-      className={background.main}>
-      <div>
-        {song && (
-          <Typography variant="h2" color="primary" fontSize={150} fontFamily='DejaVu Sans Mono, monospace' fontStyle='normal'>
-            {song.name} - {song.singer}
-          </Typography>
-        )}
-        <div id="player" />
-        {isNotStart && <IconButton
-          variant="contained"
-          color="secondary"
-          onClick={playVideo}>
-          <PlayCircleOutlineIcon fontSize={'large'} color='primary' />
+    <>
+      <Box>
+        <Box position="relative"
+          height="95vh"
+          display="flex"
+          flexDirection="column"
+          className={background.main}>
+          <div>
+            {song && (
+              <h2 className={typo.songheader}>
+                {song.name} - {song.singer}
+              </h2>
+            )}
+            <div id="player" />
+            {isNotStart && <IconButton
+              variant="secondary"
+              color="error"
+              onClick={playVideo}>
+              <PlayCircleOutlineIcon fontSize={'large'}/>
+            </IconButton>}
 
-        </IconButton>}
-        <h4>{prevLine}</h4>
-        <Typography variant="h1" style={lyric_styles.main}>{line}</Typography>
-        <h4>{nextLine}</h4>
-        {missLyrics && <Button
-          variant="contained"
-          color="secondary"
-          style={botton_styles.main}
-          onClick={showMissLyrics}>Show Answer
-		  </Button>}
-        <br />
-        {showContinuePlay && (
-          <Button
-            variant="contained"
-            color="secondary"
-            style={botton_styles.main}
-            onClick={continuePlaying}>Continue Playing
+
+            <Typography variant="subtitle1" style={lyric_styles.front}>{prevLine}</Typography>
+            <Box
+              style={lyrics_box_styles.root}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center">
+              <Typography variant="subtitle1" style={lyric_styles.main}>{line}</Typography>
+            </Box>
+            <Typography variant="subtitle1" style={lyric_styles.behind}>{nextLine}</Typography>
+
+
+            <ButtonGroup>
+            {missLyrics && <Button
+              variant="contained"
+              color="primary"
+              style={botton_styles.main}
+              onClick={showMissLyrics}>Show Answer
+            </Button>}
+            <br />
+            {showContinuePlay && (
+              <Button
+                variant="contained"
+                color="primary"
+                style={botton_styles.other}
+                onClick={continuePlaying}>Continue Playing
+              </Button>
+              
+            )}
+            </ButtonGroup>
+          </div>
+        </Box>
+        <Box>
+          <div className={bar.above}>
+            <AppBar
+              position="static"
+              style={{ background: '#460625' }}>
+              <Toolbar variant="dense">
+                <IconButton
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                  className>
+                  <MenuIcon className={bar.menubutton} />
+                </IconButton>
+
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem
+                    component={Link}
+                    to="/">
+                    Home
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/TourSelect">
+                    Select Tournament
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/Edit">
+                    Edit Your Game
+                    </MenuItem>
+                </Menu>
+
+                <b className={typo.sign}>
+                  CNL gourp #7
+                </b>
+
+                <div className={bar.loginbutton}>
+                  <Button className={button.white}>
+                    login
           </Button>
-        )}
-      </div>
-    </Box>
+                </div>
+              </Toolbar>
+            </AppBar>
+          </div>
+        </Box>
+      </Box>
+    </>
   );
 }
