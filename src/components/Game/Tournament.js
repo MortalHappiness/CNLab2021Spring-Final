@@ -3,23 +3,27 @@ import React, { useState, useEffect } from "react";
 import { SERVER_URL } from "../../constants.json";
 import { Link } from "react-router-dom";
 
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/Menu'
-import IconButton from '@material-ui/core/IconButton'
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuIcon from "@material-ui/icons/Menu";
+import IconButton from "@material-ui/core/IconButton";
 
-import MusicIcon from '@material-ui/icons/AlbumTwoTone';
+import MusicIcon from "@material-ui/icons/AlbumTwoTone";
 
-import { button_styles, bar_styles, typo_styles, background_styles } from "../utils.js";
+import {
+  button_styles,
+  bar_styles,
+  typo_styles,
+  background_styles,
+} from "../../utils.js";
 
 export default function Tournament({ tourID, updatePlayCollect }) {
-
   //menu and style
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event) => {
@@ -59,17 +63,18 @@ export default function Tournament({ tourID, updatePlayCollect }) {
 
   return (
     <>
-      <Box position="relative"
+      <Box
+        position="relative"
         height="95vh"
         display="flex"
         flexDirection="column"
-        className={background.dark}>
-
+        className={background.dark}
+      >
         <div>
           <h2 className={typo.subheader}>Tournament #{tourID}</h2>
           {collects.map((collect) => (
             <Button
-              startIcon={<MusicIcon fontSize={'large'} color='white' />}
+              startIcon={<MusicIcon fontSize={"large"} color="white" />}
               onClick={() => fetchCollectSongs(collect.id)}
               variant="contained"
               color="primary"
@@ -81,15 +86,14 @@ export default function Tournament({ tourID, updatePlayCollect }) {
       </Box>
       <Box>
         <div className={bar.above}>
-          <AppBar
-            position="static"
-            style={{ background: '#460625' }}>
+          <AppBar position="static" style={{ background: "#460625" }}>
             <Toolbar variant="dense">
               <IconButton
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                className>
+                className
+              >
                 <MenuIcon className={bar.menubutton} />
               </IconButton>
 
@@ -100,31 +104,21 @@ export default function Tournament({ tourID, updatePlayCollect }) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem
-                  component={Link}
-                  to="/">
+                <MenuItem component={Link} to="/">
                   Home
-            </MenuItem>
-                <MenuItem
-                  component={Link}
-                  to="/TourSelect">
+                </MenuItem>
+                <MenuItem component={Link} to="/TourSelect">
                   Select Tournament
-            </MenuItem>
-                <MenuItem
-                  component={Link}
-                  to="/Edit">
+                </MenuItem>
+                <MenuItem component={Link} to="/Edit">
                   Edit Your Game
-              </MenuItem>
+                </MenuItem>
               </Menu>
 
-              <b className={typo.sign}>
-                CNL gourp #7
-          </b>
+              <b className={typo.sign}>CNL gourp #7</b>
 
               <div className={bar.loginbutton}>
-                <Button className={button.white}>
-                  login
-          </Button>
+                <Button className={button.white}>login</Button>
               </div>
             </Toolbar>
           </AppBar>

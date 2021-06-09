@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
-import img from "../images/bg.jpg";
-import img_light from "../images/bg_light.jpg";
-import img_dark from "../images/bg_dark.jpg";
+import img from "./images/bg.jpg";
+import img_light from "./images/bg_light.jpg";
+import img_dark from "./images/bg_dark.jpg";
 
 export const button_styles = makeStyles({
   blue: {

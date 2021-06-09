@@ -1,41 +1,45 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
 
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/Menu'
-import IconButton from '@material-ui/core/IconButton'
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuIcon from "@material-ui/icons/Menu";
+import IconButton from "@material-ui/core/IconButton";
 
-import { button_styles, bar_styles, typo_styles, background_styles } from "../utils.js";
+import {
+  button_styles,
+  bar_styles,
+  typo_styles,
+  background_styles,
+} from "../../utils.js";
 
 const lyric_styles = {
   main: {
     color: "#cab1f6",
     fontSize: 30,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
+    fontFamily: "DejaVu Sans Mono, monospace",
+    fontStyle: "normal",
   },
   front: {
     fontSize: 20,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
+    fontFamily: "DejaVu Sans Mono, monospace",
+    fontStyle: "normal",
     color: "#404040",
-
   },
   behind: {
     fontSize: 20,
-    fontFamily: 'DejaVu Sans Mono, monospace',
-    fontStyle: 'normal',
+    fontFamily: "DejaVu Sans Mono, monospace",
+    fontStyle: "normal",
     color: "#404040",
   },
 };
@@ -43,11 +47,11 @@ const lyric_styles = {
 const botton_styles = {
   main: {
     display: "inline-block",
-    color: "white"
+    color: "white",
   },
   other: {
     display: "inline-block",
-    color: "white"
+    color: "white",
   },
 };
 
@@ -56,15 +60,13 @@ const lyrics_box_styles = {
     background: "white",
     marginLeft: "25%",
     marginRight: "25%",
-    borderRadius: 20, 
-    boxShadow: 'none',
+    borderRadius: 20,
+    boxShadow: "none",
   },
   transparent: {
     marginTop: "7%",
-  }
+  },
 };
-
-
 
 function renderHiddenAnswerLine(cur_line) {
   let line = "";
@@ -189,11 +191,13 @@ export default function Song({ song }) {
   return (
     <>
       <Box>
-        <Box position="relative"
+        <Box
+          position="relative"
           height="95vh"
           display="flex"
           flexDirection="column"
-          className={background.dark}>
+          className={background.dark}
+        >
           <div>
             {song && (
               <h2 className={typo.songheader}>
@@ -201,59 +205,67 @@ export default function Song({ song }) {
               </h2>
             )}
             <div id="player" />
-            {isNotStart && <IconButton
-              variant="secondary"
-              color="error"
-              onClick={playVideo}>
-              <PlayCircleOutlineIcon fontSize={'large'} />
-            </IconButton>}
+            {isNotStart && (
+              <IconButton variant="secondary" color="error" onClick={playVideo}>
+                <PlayCircleOutlineIcon fontSize={"large"} />
+              </IconButton>
+            )}
 
-            <Box style={lyrics_box_styles.transparent}>
-
-            </Box>
+            <Box style={lyrics_box_styles.transparent}></Box>
             <Box
               style={lyrics_box_styles.root}
               display="flex"
               flexDirection="column"
-              justifyContent="center">
-              <Typography variant="subtitle1" style={lyric_styles.front}>{prevLine}</Typography>
+              justifyContent="center"
+            >
+              <Typography variant="subtitle1" style={lyric_styles.front}>
+                {prevLine}
+              </Typography>
 
-              <Typography variant="subtitle1" style={lyric_styles.main}>{line}</Typography>
+              <Typography variant="subtitle1" style={lyric_styles.main}>
+                {line}
+              </Typography>
 
-              <Typography variant="subtitle1" style={lyric_styles.behind}>{nextLine}</Typography>
+              <Typography variant="subtitle1" style={lyric_styles.behind}>
+                {nextLine}
+              </Typography>
             </Box>
 
             <ButtonGroup>
-              {missLyrics && <Button
-                variant="contained"
-                color="primary"
-                style={botton_styles.main}
-                onClick={showMissLyrics}>Show Answer
-            </Button>}
+              {missLyrics && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={botton_styles.main}
+                  onClick={showMissLyrics}
+                >
+                  Show Answer
+                </Button>
+              )}
               <br />
               {showContinuePlay && (
                 <Button
                   variant="contained"
                   color="primary"
                   style={botton_styles.other}
-                  onClick={continuePlaying}>Continue Playing
+                  onClick={continuePlaying}
+                >
+                  Continue Playing
                 </Button>
-
               )}
             </ButtonGroup>
           </div>
         </Box>
         <Box>
           <div className={bar.above}>
-            <AppBar
-              position="static"
-              style={{ background: '#460625' }}>
+            <AppBar position="static" style={{ background: "#460625" }}>
               <Toolbar variant="dense">
                 <IconButton
                   aria-controls="simple-menu"
                   aria-haspopup="true"
                   onClick={handleClick}
-                  className>
+                  className
+                >
                   <MenuIcon className={bar.menubutton} />
                 </IconButton>
 
@@ -264,31 +276,21 @@ export default function Song({ song }) {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem
-                    component={Link}
-                    to="/">
+                  <MenuItem component={Link} to="/">
                     Home
                   </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/TourSelect">
+                  <MenuItem component={Link} to="/TourSelect">
                     Select Tournament
                   </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/Edit">
+                  <MenuItem component={Link} to="/Edit">
                     Edit Your Game
-                    </MenuItem>
+                  </MenuItem>
                 </Menu>
 
-                <b className={typo.sign}>
-                  CNL gourp #7
-                </b>
+                <b className={typo.sign}>CNL gourp #7</b>
 
                 <div className={bar.loginbutton}>
-                  <Button className={button.white}>
-                    login
-          </Button>
+                  <Button className={button.white}>login</Button>
                 </div>
               </Toolbar>
             </AppBar>
