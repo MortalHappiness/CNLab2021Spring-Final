@@ -19,11 +19,11 @@ import PlaylistPlayTwoToneIcon from "@material-ui/icons/PlaylistPlayTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 
 import {
-  button_styles,
-  bar_styles,
-  typo_styles,
-  background_styles,
-} from "../utils.js";
+  useButtonStyles,
+  useBarStyles,
+  useTypoStyles,
+  useBackgroundStyles,
+} from "../styles";
 
 function randint(min, max) {
   min = Math.ceil(min);
@@ -40,11 +40,10 @@ export default function HomePage() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const button = button_styles();
-  const typo = typo_styles();
-  const bar = bar_styles();
-  const background = background_styles();
-  //
+  const buttonClasses = useButtonStyles();
+  const typoClasses = useTypoStyles();
+  const barClasses = useBarStyles();
+  const backgroundClasses = useBackgroundStyles();
 
   const history = useHistory();
 
@@ -65,12 +64,12 @@ export default function HomePage() {
         height="95vh"
         display="flex"
         flexDirection="column"
-        className={background.main}
+        className={backgroundClasses.main}
       >
         <div>
-          <h1 className={typo.header}>Million $inger</h1>
+          <h1 className={typoClasses.header}>Million $inger</h1>
           <Button
-            className={button.blue}
+            className={buttonClasses.blue}
             variant="contained"
             color="primary"
             onClick={startNow}
@@ -79,7 +78,7 @@ export default function HomePage() {
             Start Now
           </Button>
           <Button
-            className={button.blue}
+            className={buttonClasses.blue}
             variant="contained"
             color="primary"
             component={Link}
@@ -89,7 +88,7 @@ export default function HomePage() {
             Select Tournament
           </Button>
           <Button
-            className={button.blue}
+            className={buttonClasses.blue}
             variant="contained"
             color="primary"
             component={Link}
@@ -102,7 +101,7 @@ export default function HomePage() {
       </Box>
 
       <Box>
-        <div className={bar.above}>
+        <div className={barClasses.above}>
           <AppBar position="static" style={{ background: "#0c032b" }}>
             <Toolbar variant="dense">
               <IconButton
@@ -110,7 +109,7 @@ export default function HomePage() {
                 aria-haspopup="true"
                 onClick={handleClick}
               >
-                <MenuIcon className={bar.menubutton} />
+                <MenuIcon className={barClasses.menubutton} />
               </IconButton>
 
               <Menu
@@ -131,10 +130,10 @@ export default function HomePage() {
                 </MenuItem>
               </Menu>
 
-              <b className={typo.sign}>CNL gourp #7</b>
+              <b className={typoClasses.sign}>CNL gourp #7</b>
 
-              <div className={bar.loginbutton}>
-                <Button className={button.white}>login</Button>
+              <div className={barClasses.loginbutton}>
+                <Button className={buttonClasses.white}>login</Button>
               </div>
             </Toolbar>
           </AppBar>

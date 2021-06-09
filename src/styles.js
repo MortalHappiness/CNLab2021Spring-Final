@@ -3,7 +3,7 @@ import img from "./images/bg.jpg";
 import img_light from "./images/bg_light.jpg";
 import img_dark from "./images/bg_dark.jpg";
 
-export const button_styles = makeStyles({
+export const useButtonStyles = makeStyles({
   blue: {
     background: "#a994f0",
     border: 0,
@@ -22,7 +22,7 @@ export const button_styles = makeStyles({
   },
 });
 
-export const bar_styles = makeStyles((theme) => ({
+export const useBarStyles = makeStyles({
   above: {
     flexGrow: 1,
     color: "#283747",
@@ -33,9 +33,9 @@ export const bar_styles = makeStyles((theme) => ({
   menubutton: {
     color: "white",
   },
-}));
+});
 
-export const typo_styles = makeStyles((theme) => ({
+export const useTypoStyles = makeStyles((theme) => ({
   header: {
     padding: theme.spacing(1),
 
@@ -70,7 +70,7 @@ export const typo_styles = makeStyles((theme) => ({
   },
 }));
 
-export const background_styles = makeStyles((theme) => ({
+export const useBackgroundStyles = makeStyles({
   main: {
     backgroundImage: `url(${img})`,
     width: "100%",
@@ -83,4 +83,4 @@ export const background_styles = makeStyles((theme) => ({
     backgroundImage: `url(${img_dark})`,
     width: "100%",
   },
-}));
+});

@@ -17,11 +17,11 @@ import IconButton from "@material-ui/core/IconButton";
 import MusicIcon from "@material-ui/icons/AlbumTwoTone";
 
 import {
-  button_styles,
-  bar_styles,
-  typo_styles,
-  background_styles,
-} from "../../utils.js";
+  useButtonStyles,
+  useBarStyles,
+  useTypoStyles,
+  useBackgroundStyles,
+} from "../../styles";
 
 export default function Tournament({ tourID, updatePlayCollect }) {
   //menu and style
@@ -32,11 +32,10 @@ export default function Tournament({ tourID, updatePlayCollect }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const button = button_styles();
-  const typo = typo_styles();
-  const bar = bar_styles();
-  const background = background_styles();
-  //
+  const buttonClasses = useButtonStyles();
+  const typoClasses = useTypoStyles();
+  const barClasses = useBarStyles();
+  const backgroundClasses = useBackgroundStyles();
 
   const [collects, setCollects] = useState([]);
 
@@ -65,10 +64,10 @@ export default function Tournament({ tourID, updatePlayCollect }) {
         height="95vh"
         display="flex"
         flexDirection="column"
-        className={background.dark}
+        className={backgroundClasses.dark}
       >
         <div>
-          <h2 className={typo.subheader}>Tournament #{tourID}</h2>
+          <h2 className={typoClasses.subheader}>Tournament #{tourID}</h2>
           {collects.map((collect) => (
             <Button
               onClick={() => fetchCollectSongs(collect.id)}
@@ -83,7 +82,7 @@ export default function Tournament({ tourID, updatePlayCollect }) {
         </div>
       </Box>
       <Box>
-        <div className={bar.above}>
+        <div className={barClasses.above}>
           <AppBar position="static" style={{ background: "#460625" }}>
             <Toolbar variant="dense">
               <IconButton
@@ -91,7 +90,7 @@ export default function Tournament({ tourID, updatePlayCollect }) {
                 aria-haspopup="true"
                 onClick={handleClick}
               >
-                <MenuIcon className={bar.menubutton} />
+                <MenuIcon className={barClasses.menubutton} />
               </IconButton>
 
               <Menu
@@ -112,10 +111,10 @@ export default function Tournament({ tourID, updatePlayCollect }) {
                 </MenuItem>
               </Menu>
 
-              <b className={typo.sign}>CNL gourp #7</b>
+              <b className={typoClasses.sign}>CNL gourp #7</b>
 
-              <div className={bar.loginbutton}>
-                <Button className={button.white}>login</Button>
+              <div className={barClasses.loginbutton}>
+                <Button className={buttonClasses.white}>login</Button>
               </div>
             </Toolbar>
           </AppBar>
