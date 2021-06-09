@@ -140,7 +140,7 @@ export default function Tournament() {
         setState({ ...state, title: "" });
       }
     },
-    [isSending, state]
+    [isSending, state, collects]
   );
 
   // ========================================
