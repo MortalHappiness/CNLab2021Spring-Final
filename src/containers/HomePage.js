@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { SERVER_URL } from "../constants.json";
@@ -33,14 +33,11 @@ function randint(min, max) {
 
 export default function HomePage() {
   //menu and style
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const tourselect = () => {
     setAnchorEl(null);
   };
   const button = button_styles();
@@ -83,7 +80,7 @@ export default function HomePage() {
           </Button>
           <Button
             className={button.blue}
-            startIcon={<PlaylistPlayTwoToneIcon fontsize={"large"} />}
+            startIcon={<PlaylistPlayTwoToneIcon fontSize={"large"} />}
             variant="contained"
             color="primary"
             component={Link}
@@ -112,7 +109,6 @@ export default function HomePage() {
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                className
               >
                 <MenuIcon className={bar.menubutton} />
               </IconButton>

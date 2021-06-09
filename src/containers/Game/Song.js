@@ -89,9 +89,6 @@ export default function Song({ song }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const tourselect = () => {
-    setAnchorEl(null);
-  };
   const button = button_styles();
   const typo = typo_styles();
   const bar = bar_styles();
