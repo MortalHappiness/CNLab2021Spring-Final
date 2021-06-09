@@ -96,6 +96,7 @@ export default function Song({ song }) {
 
   const YT = window.YT;
   const player = useRef(null);
+  const interval = useRef(null);
 
   const [prevLine, setPrevLine] = useState("");
   const [line, setLine] = useState("");
@@ -111,7 +112,7 @@ export default function Song({ song }) {
 
   const showTime = () => {
     let currentLineIndex = 0;
-    setInterval(() => {
+    interval.current = setInterval(() => {
       if (!isPaused()) {
         const currentTime = player.current.getCurrentTime() * 1000;
         let idx = -1;
@@ -139,6 +140,8 @@ export default function Song({ song }) {
           setShowContinuePlay(true);
           setLine(answerLine.current);
           player.current.pauseVideo();
+          clearInterval(interval.current);
+          interval.current = null;
         }
       }
     }, 10);
