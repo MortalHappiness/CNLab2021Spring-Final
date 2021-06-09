@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import HomePage from "./components/HomePage";
-import TournamentSelection from "./components/TournamentSelection";
-import Game from "./components/Game";
-import Admin from "./components/admin";
-import Song from "./components/admin/Song";
-import Collect from "./components/admin/Collect";
-import Tournament from "./components/admin/Tournament";
+import HomePage from "./containers/HomePage";
+import TournamentSelection from "./containers/TournamentSelection";
+import Game from "./containers/Game";
+import Admin from "./containers/admin";
+import Song from "./containers/admin/Song";
+import Collect from "./containers/admin/Collect";
+import Tournament from "./containers/admin/Tournament";
 
 import "./App.css";
 
