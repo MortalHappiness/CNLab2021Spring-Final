@@ -70,32 +70,32 @@ export default function HomePage() {
         <div>
           <h1 className={typo.header}>Million $inger</h1>
           <Button
-            startIcon={<PlayArrowTwoToneIcon fontSize={"large"} />}
             className={button.blue}
             variant="contained"
             color="primary"
             onClick={startNow}
           >
+            <PlayArrowTwoToneIcon fontSize={"large"} />
             Start Now
           </Button>
           <Button
             className={button.blue}
-            startIcon={<PlaylistPlayTwoToneIcon fontSize={"large"} />}
             variant="contained"
             color="primary"
             component={Link}
             to="/TourSelect"
           >
+            <PlaylistPlayTwoToneIcon fontSize={"large"} />
             Select Tournament
           </Button>
           <Button
-            startIcon={<PlaylistAddTwoToneIcon fontSize={"large"} />}
             className={button.blue}
             variant="contained"
             color="primary"
             component={Link}
             to="/Edit"
           >
+            <PlaylistAddTwoToneIcon fontSize={"large"} />
             Edit Your Game
           </Button>
         </div>

@@ -62,7 +62,7 @@ export default function Collect({ updatePlaySong, collect }) {
           <ul>
             {collect &&
               collect.songs.map((song) => (
-                <Box m={4}>
+                <Box key={song.id} m={4}>
                   <Button
                     variant="contained"
                     color="primary"
@@ -84,7 +84,6 @@ export default function Collect({ updatePlaySong, collect }) {
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                className
               >
                 <MenuIcon className={bar.menubutton} />
               </IconButton>

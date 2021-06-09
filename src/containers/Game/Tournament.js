@@ -71,11 +71,12 @@ export default function Tournament({ tourID, updatePlayCollect }) {
           <h2 className={typo.subheader}>Tournament #{tourID}</h2>
           {collects.map((collect) => (
             <Button
-              startIcon={<MusicIcon fontSize={"large"} color="white" />}
               onClick={() => fetchCollectSongs(collect.id)}
+              key={collect.id}
               variant="contained"
               color="primary"
             >
+              <MusicIcon fontSize={"large"} />
               {collect.title}
             </Button>
           ))}
@@ -89,7 +90,6 @@ export default function Tournament({ tourID, updatePlayCollect }) {
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                className
               >
                 <MenuIcon className={bar.menubutton} />
               </IconButton>

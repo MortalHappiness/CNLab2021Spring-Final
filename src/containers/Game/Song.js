@@ -186,114 +186,110 @@ export default function Song({ song }) {
   };
 
   return (
-    <>
-      <Box>
-        <Box
-          position="relative"
-          height="95vh"
-          display="flex"
-          flexDirection="column"
-          className={background.dark}
-        >
-          <div>
-            {song && (
-              <h2 className={typo.songheader}>
-                {song.name} - {song.singer}
-              </h2>
+    <Box>
+      <Box
+        position="relative"
+        height="95vh"
+        display="flex"
+        flexDirection="column"
+        className={background.dark}
+      >
+        <div>
+          {song && (
+            <h2 className={typo.songheader}>
+              {song.name} - {song.singer}
+            </h2>
+          )}
+          <div id="player" />
+          {isNotStart && (
+            <IconButton variant="secondary" onClick={playVideo}>
+              <PlayCircleOutlineIcon fontSize={"large"} />
+            </IconButton>
+          )}
+
+          <Box style={lyrics_box_styles.transparent}></Box>
+          <Box
+            style={lyrics_box_styles.root}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <Typography variant="subtitle1" style={lyric_styles.front}>
+              {prevLine}
+            </Typography>
+
+            <Typography variant="subtitle1" style={lyric_styles.main}>
+              {line}
+            </Typography>
+
+            <Typography variant="subtitle1" style={lyric_styles.behind}>
+              {nextLine}
+            </Typography>
+          </Box>
+
+          <ButtonGroup>
+            {missLyrics && (
+              <Button
+                variant="contained"
+                color="primary"
+                style={botton_styles.main}
+                onClick={showMissLyrics}
+              >
+                Show Answer
+              </Button>
             )}
-            <div id="player" />
-            {isNotStart && (
-              <IconButton variant="secondary" color="error" onClick={playVideo}>
-                <PlayCircleOutlineIcon fontSize={"large"} />
-              </IconButton>
+            {showContinuePlay && (
+              <Button
+                variant="contained"
+                color="primary"
+                style={botton_styles.other}
+                onClick={continuePlaying}
+              >
+                Continue Playing
+              </Button>
             )}
-
-            <Box style={lyrics_box_styles.transparent}></Box>
-            <Box
-              style={lyrics_box_styles.root}
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-            >
-              <Typography variant="subtitle1" style={lyric_styles.front}>
-                {prevLine}
-              </Typography>
-
-              <Typography variant="subtitle1" style={lyric_styles.main}>
-                {line}
-              </Typography>
-
-              <Typography variant="subtitle1" style={lyric_styles.behind}>
-                {nextLine}
-              </Typography>
-            </Box>
-
-            <ButtonGroup>
-              {missLyrics && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={botton_styles.main}
-                  onClick={showMissLyrics}
-                >
-                  Show Answer
-                </Button>
-              )}
-              <br />
-              {showContinuePlay && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={botton_styles.other}
-                  onClick={continuePlaying}
-                >
-                  Continue Playing
-                </Button>
-              )}
-            </ButtonGroup>
-          </div>
-        </Box>
-        <Box>
-          <div className={bar.above}>
-            <AppBar position="static" style={{ background: "#460625" }}>
-              <Toolbar variant="dense">
-                <IconButton
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                  className
-                >
-                  <MenuIcon className={bar.menubutton} />
-                </IconButton>
-
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem component={Link} to="/">
-                    Home
-                  </MenuItem>
-                  <MenuItem component={Link} to="/TourSelect">
-                    Select Tournament
-                  </MenuItem>
-                  <MenuItem component={Link} to="/Edit">
-                    Edit Your Game
-                  </MenuItem>
-                </Menu>
-
-                <b className={typo.sign}>CNL gourp #7</b>
-
-                <div className={bar.loginbutton}>
-                  <Button className={button.white}>login</Button>
-                </div>
-              </Toolbar>
-            </AppBar>
-          </div>
-        </Box>
+          </ButtonGroup>
+        </div>
       </Box>
-    </>
+      <Box>
+        <div className={bar.above}>
+          <AppBar position="static" style={{ background: "#460625" }}>
+            <Toolbar variant="dense">
+              <IconButton
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <MenuIcon className={bar.menubutton} />
+              </IconButton>
+
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem component={Link} to="/">
+                  Home
+                </MenuItem>
+                <MenuItem component={Link} to="/TourSelect">
+                  Select Tournament
+                </MenuItem>
+                <MenuItem component={Link} to="/Edit">
+                  Edit Your Game
+                </MenuItem>
+              </Menu>
+
+              <b className={typo.sign}>CNL gourp #7</b>
+
+              <div className={bar.loginbutton}>
+                <Button className={button.white}>login</Button>
+              </div>
+            </Toolbar>
+          </AppBar>
+        </div>
+      </Box>
+    </Box>
   );
 }

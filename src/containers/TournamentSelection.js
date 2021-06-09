@@ -50,15 +50,14 @@ export default function TournamentSelection() {
     const array = [];
     for (let i = 1; i <= NTours; ++i) {
       array.push(
-        <Box m={4}>
+        <Box m={4} key={i}>
           <Button
-            key={i}
             variant="contained"
             color="primary"
             component={Link}
             to={`/Tour/${i}`}
-            startIcon={<MusicIcon fontSize={"large"} color="white" />}
           >
+            <MusicIcon fontSize={"large"} />
             Tournament {i}
           </Button>
         </Box>
@@ -90,7 +89,6 @@ export default function TournamentSelection() {
                 aria-controls="simple-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
-                className
               >
                 <MenuIcon className={bar.menubutton} />
               </IconButton>
