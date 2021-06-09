@@ -119,6 +119,7 @@ export default function Tournament() {
         const res = await fetch(`${SERVER_URL}/api/game/tours/new`, {
           method: "POST",
           body: JSON.stringify({
+            title: state.title,
             collects: collects
               .filter((collect) => collect.selected)
               .map((collect) => collect.id),
