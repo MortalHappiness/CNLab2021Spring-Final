@@ -8,6 +8,7 @@ import Admin from "./containers/admin";
 import Song from "./containers/admin/Song";
 import Collect from "./containers/admin/Collect";
 import Tournament from "./containers/admin/Tournament";
+import Bar from "./components/Bar.js"
 
 import "./App.css";
 
@@ -15,7 +16,8 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Switch>
+        <Bar />
+		<Switch>
           <Route path="/TourSelect">
             <TournamentSelection />
           </Route>
