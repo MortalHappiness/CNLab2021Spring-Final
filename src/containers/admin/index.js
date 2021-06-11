@@ -25,7 +25,7 @@ export default function Admin() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
-          Admin
+          Edit Game
         </Typography>
         <Button
           variant="contained"
