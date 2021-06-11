@@ -45,7 +45,7 @@ export default function Bar() {
                 component={Link}
                 to="/TourSelect"
               >
-                Tournament
+                Tournaments
               </Button>
               <Button
                 className={buttonClasses.white}

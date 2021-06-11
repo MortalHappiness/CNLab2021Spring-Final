@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import { SERVER_URL } from "../constants.json";
@@ -14,9 +14,9 @@ import { makeStyles } from "@material-ui/core/styles";
 const useTourLayoutStyles = makeStyles({
   root: {
     justifyContent: "center",
-	alignItems: "center",
-	display: "flex",
-	flexWrap: "wrap",
+    alignItems: "center",
+    display: "flex",
+    flexWrap: "wrap",
   },
 });
 
@@ -24,53 +24,40 @@ export default function TournamentSelection() {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
   const tourLayoutClasses = useTourLayoutStyles();
-  
-  const [NTours, setNTours] = useState(0);
 
+  const [tours, setTours] = useState(0);
   useEffect(() => {
-    fetch(`${SERVER_URL}/api/game/tours`)
+    fetch(`${SERVER_URL}/api/v2/game/tours`)
       .then((res) => res.json())
-      .then((json) => setNTours(json.data))
+      .then((json) => setTours(json.data))
       .catch((e) => console.error(e));
   }, []);
 
-  const tournaments = useMemo(() => {
-    const array = [];
-    for (let i = 1; i <= NTours; ++i) {
-      array.push(
-        <Box m={4} key={i}>
-          <Button
-            variant="contained"
-            color="primary"
-            component={Link}
-            to={`/Tour/${i}`}
-          >
-            <MusicIcon fontSize={"large"} />
-            Tournament {i}
-          </Button>
-        </Box>
-      );
-    }
-    return (
-	<div className={tourLayoutClasses.root}	>
-		{array}
-	</div>);
-  }, [NTours]);
-
   return (
-    <>
-      <Box
-        position="relative"
-        display="flex"
-		height="95vh"
-        flexDirection="column"
-        className={backgroundClasses.dark}
-      >
-        <div>
-          <h2 className={typoClasses.subheader}>Tournament Selection</h2>
-          {tournaments}
-        </div>
-      </Box>
-    </>
+    <Box
+      position="relative"
+      height="95vh"
+      display="flex"
+      flexDirection="column"
+      className={backgroundClasses.dark}
+    >
+      <h2 className={typoClasses.subheader}>Tournament Selection</h2>
+      <div className={tourLayoutClasses.root}>
+        {tours &&
+          tours.map((tour) => (
+            <Box m={4} key={tour.id}>
+              <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to={`/Tour/${tour.id}`}
+              >
+                <MusicIcon fontSize={"large"} />
+                {tour.title}
+              </Button>
+            </Box>
+          ))}
+      </div>
+    </Box>
   );
 }

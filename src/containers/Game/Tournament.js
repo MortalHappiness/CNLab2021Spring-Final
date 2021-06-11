@@ -13,12 +13,14 @@ export default function Tournament({ tourID, updatePlayCollect }) {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
 
+  const [title, setTitle] = useState("");
   const [collects, setCollects] = useState([]);
 
   useEffect(() => {
     fetch(`${SERVER_URL}/api/game/tours/${tourID}`)
       .then((res) => res.json())
       .then((json) => {
+        setTitle(json.data.title);
         setCollects(json.data.collects);
       })
       .catch((e) => console.error(e));
@@ -40,11 +42,11 @@ export default function Tournament({ tourID, updatePlayCollect }) {
         height="95vh"
         display="flex"
         flexDirection="column"
-		flexWrap="wrap"
+        flexWrap="wrap"
         className={backgroundClasses.dark}
       >
         <div>
-          <h2 className={typoClasses.subheader}>Tournament #{tourID}</h2>
+          <h2 className={typoClasses.subheader}>{title}</h2>
           {collects.map((collect) => (
             <Button
               onClick={() => fetchCollectSongs(collect.id)}
