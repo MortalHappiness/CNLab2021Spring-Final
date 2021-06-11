@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { SERVER_URL } from "../constants.json";
@@ -6,16 +6,11 @@ import { SERVER_URL } from "../constants.json";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
-
 import PlayArrowTwoToneIcon from "@material-ui/icons/PlayArrowTwoTone";
 import PlaylistPlayTwoToneIcon from "@material-ui/icons/PlaylistPlayTwoTone";
 import PlaylistAddTwoToneIcon from "@material-ui/icons/PlaylistAddTwoTone";
 
-import {
-  useButtonStyles,
-  useTypoStyles,
-  useBackgroundStyles,
-} from "../styles";
+import { useButtonStyles, useTypoStyles, useBackgroundStyles } from "../styles";
 
 function randint(min, max) {
   min = Math.ceil(min);
@@ -75,7 +70,7 @@ export default function HomePage() {
             variant="contained"
             color="primary"
             component={Link}
-            to="/Edit"
+            to="/admin"
           >
             <PlaylistAddTwoToneIcon fontSize={"large"} />
             Edit Your Game

@@ -16,9 +16,9 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 
-import { SERVER_URL } from "../../constants.json";
+import { SERVER_URL } from "../../../constants.json";
 
 // ========================================
 
@@ -48,20 +48,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Collect() {
+export default function TournamentNew() {
   const classes = useStyles();
-  const [songs, setSongs] = useState(null);
+  const [collects, setCollects] = useState(null);
 
-  // Fetch songs
+  // Fetch collects
   useEffect(() => {
-    fetch(`${SERVER_URL}/api/game/songs`)
+    fetch(`${SERVER_URL}/api/game/collects`)
       .then((res) => res.json())
       .then((json) => {
         const data = json.data;
-        data.forEach((song) => {
-          song.selected = false;
+        data.forEach((collect) => {
+          collect.selected = false;
         });
-        setSongs(data);
+        setCollects(data);
       })
       .catch((e) => console.error(e));
   }, []);
@@ -82,11 +82,11 @@ export default function Collect() {
   };
 
   const handleCheckboxChange = (idx) => (e) => {
-    const newSongs = [...songs];
-    const newSong = { ...songs[idx] };
-    newSong.selected = e.target.checked;
-    newSongs[idx] = newSong;
-    setSongs(newSongs);
+    const newCollects = [...collects];
+    const newCollect = { ...collects[idx] };
+    newCollect.selected = e.target.checked;
+    newCollects[idx] = newCollect;
+    setCollects(newCollects);
   };
 
   // ========================================
@@ -116,11 +116,13 @@ export default function Collect() {
       if (isSending) return;
       setIsSending(true);
       try {
-        const res = await fetch(`${SERVER_URL}/api/game/collects/new`, {
+        const res = await fetch(`${SERVER_URL}/api/game/tours/new`, {
           method: "POST",
           body: JSON.stringify({
             title: state.title,
-            songs: songs.filter((song) => song.selected).map((song) => song.id),
+            collects: collects
+              .filter((collect) => collect.selected)
+              .map((collect) => collect.id),
           }),
           headers: {
             "content-type": "application/json",
@@ -139,16 +141,16 @@ export default function Collect() {
         setState({ ...state, title: "" });
       }
     },
-    [isSending, state, songs]
+    [isSending, state, collects]
   );
 
   // ========================================
 
-  return songs ? (
+  return collects ? (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
-          Edit Collect
+          Create Tournament
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
@@ -164,19 +166,19 @@ export default function Collect() {
             onChange={handleChange}
           />
           <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">Songs</FormLabel>
+            <FormLabel component="legend">Collects</FormLabel>
             <FormGroup>
-              {songs.map((song, idx) => (
+              {collects.map((collect, idx) => (
                 <FormControlLabel
-                  key={song.id}
+                  key={collect.id}
                   control={
                     <Checkbox
-                      checked={songs[idx].selected}
+                      checked={collects[idx].selected}
                       onChange={handleCheckboxChange(idx)}
-                      name={song.name}
+                      name={collect.title}
                     />
                   }
-                  label={`${song.name} - ${song.singer}`}
+                  label={collect.title}
                 />
               ))}
             </FormGroup>

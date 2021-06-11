@@ -8,10 +8,7 @@ import Button from "@material-ui/core/Button";
 
 import MusicIcon from "@material-ui/icons/MusicNoteTwoTone";
 
-import {
-  useTypoStyles,
-  useBackgroundStyles,
-} from "../styles";
+import { useTypoStyles, useBackgroundStyles } from "../styles";
 
 export default function TournamentSelection() {
   const typoClasses = useTypoStyles();
@@ -60,7 +57,6 @@ export default function TournamentSelection() {
           {tournaments}
         </div>
       </Box>
-
     </>
   );
 }

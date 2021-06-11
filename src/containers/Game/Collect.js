@@ -5,10 +5,7 @@ import { SERVER_URL } from "../../constants.json";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 
-import {
-  useTypoStyles,
-  useBackgroundStyles,
-} from "../../styles";
+import { useTypoStyles, useBackgroundStyles } from "../../styles";
 
 export default function Collect({ updatePlaySong, collect }) {
   const typoClasses = useTypoStyles();
@@ -53,7 +50,6 @@ export default function Collect({ updatePlaySong, collect }) {
           </ul>
         </div>
       </Box>
-
     </>
   );
 }

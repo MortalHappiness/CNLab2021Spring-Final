@@ -10,7 +10,7 @@ export default function Admin() {
         variant="contained"
         color="primary"
         component={Link}
-        to="/Edit/Song"
+        to="/admin/Song/New"
       >
         Edit Song
       </Button>
@@ -18,7 +18,7 @@ export default function Admin() {
         variant="contained"
         color="primary"
         component={Link}
-        to="/Edit/Collect"
+        to="/admin/Collect/New"
       >
         Edit Collect
       </Button>
@@ -26,9 +26,17 @@ export default function Admin() {
         variant="contained"
         color="primary"
         component={Link}
-        to="/Edit/Tournament"
+        to="/admin/Tournament/New"
       >
         Edit Tournament
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        to="/admin/Tournament/Delete"
+      >
+        Delete Tournament
       </Button>
     </div>
   );

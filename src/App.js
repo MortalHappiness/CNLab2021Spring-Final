@@ -5,10 +5,11 @@ import HomePage from "./containers/HomePage";
 import TournamentSelection from "./containers/TournamentSelection";
 import Game from "./containers/Game";
 import Admin from "./containers/admin";
-import Song from "./containers/admin/Song";
-import Collect from "./containers/admin/Collect";
-import Tournament from "./containers/admin/Tournament";
-import Bar from "./components/Bar.js"
+import SongNew from "./containers/admin/Song/New";
+import CollectNew from "./containers/admin/Collect/New";
+import TournamentNew from "./containers/admin/Tournament/New";
+import TournamentDelete from "./containers/admin/Tournament/Delete";
+import Bar from "./components/Bar.js";
 
 import "./App.css";
 
@@ -17,23 +18,26 @@ function App() {
     <Router>
       <div className="App">
         <Bar />
-		<Switch>
+        <Switch>
           <Route path="/TourSelect">
             <TournamentSelection />
           </Route>
           <Route path="/Tour/:TourID">
             <Game />
           </Route>
-          <Route path="/Edit/Song">
-            <Song />
+          <Route path="/admin/Song/New">
+            <SongNew />
           </Route>
-          <Route path="/Edit/Collect">
-            <Collect />
+          <Route path="/admin/Collect/New">
+            <CollectNew />
           </Route>
-          <Route path="/Edit/Tournament">
-            <Tournament />
+          <Route path="/admin/Tournament/New">
+            <TournamentNew />
           </Route>
-          <Route path="/Edit">
+          <Route path="/admin/Tournament/Delete">
+            <TournamentDelete />
+          </Route>
+          <Route path="/admin">
             <Admin />
           </Route>
           <Route path="/">

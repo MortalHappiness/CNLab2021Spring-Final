@@ -9,10 +9,7 @@ import Typography from "@material-ui/core/Typography";
 
 import IconButton from "@material-ui/core/IconButton";
 
-import {
-  useTypoStyles,
-  useBackgroundStyles,
-} from "../../styles";
+import { useTypoStyles, useBackgroundStyles } from "../../styles";
 
 const lyric_styles = {
   main: {

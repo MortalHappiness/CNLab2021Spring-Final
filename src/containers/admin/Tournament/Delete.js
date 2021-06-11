@@ -16,9 +16,9 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-import Loading from "../../components/Loading";
+import Loading from "../../../components/Loading";
 
-import { SERVER_URL } from "../../constants.json";
+import { SERVER_URL } from "../../../constants.json";
 
 // ========================================
 
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Tournament() {
+export default function TournamentDelete() {
   const classes = useStyles();
   const [collects, setCollects] = useState(null);
 
@@ -150,7 +150,7 @@ export default function Tournament() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
-          Edit Tournament
+          Delete Tournament
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
