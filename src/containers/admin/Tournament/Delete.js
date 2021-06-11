@@ -51,8 +51,7 @@ export default function TournamentDelete() {
   const classes = useStyles();
   const [tours, setTours] = useState(null);
 
-  // Fetch tours
-  useEffect(() => {
+  const fetchTours = useCallback(async () => {
     fetch(`${SERVER_URL}/api/v2/game/tours`)
       .then((res) => res.json())
       .then((json) => {
@@ -64,6 +63,11 @@ export default function TournamentDelete() {
       })
       .catch((e) => console.error(e));
   }, []);
+
+  // Fetch tours
+  useEffect(() => {
+    fetchTours();
+  }, [fetchTours]);
 
   // ========================================
   // Handle input fields
@@ -120,10 +124,11 @@ export default function TournamentDelete() {
       } catch (err) {
         setError(err.message);
       } finally {
+        await fetchTours();
         if (isMounted.current) setIsSending(false);
       }
     },
-    [isSending, state.tourID]
+    [isSending, state.tourID, fetchTours]
   );
 
   // ========================================
