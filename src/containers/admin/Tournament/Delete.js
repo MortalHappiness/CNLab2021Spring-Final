@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -10,11 +9,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import Divider from "@material-ui/core/Divider";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 import Loading from "../../../components/Loading";
 
@@ -50,18 +49,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TournamentDelete() {
   const classes = useStyles();
-  const [collects, setCollects] = useState(null);
+  const [tours, setTours] = useState(null);
 
-  // Fetch collects
+  // Fetch tours
   useEffect(() => {
-    fetch(`${SERVER_URL}/api/game/collects`)
+    fetch(`${SERVER_URL}/api/v2/game/tours`)
       .then((res) => res.json())
       .then((json) => {
         const data = json.data;
-        data.forEach((collect) => {
-          collect.selected = false;
+        data.forEach((tour) => {
+          tour.selected = false;
         });
-        setCollects(data);
+        setTours(data);
       })
       .catch((e) => console.error(e));
   }, []);
@@ -70,7 +69,7 @@ export default function TournamentDelete() {
   // Handle input fields
 
   const [state, setState] = useState({
-    title: "",
+    tourID: "",
   });
 
   const handleChange = (e) => {
@@ -79,14 +78,6 @@ export default function TournamentDelete() {
       ...state,
       [name]: e.target.value,
     });
-  };
-
-  const handleCheckboxChange = (idx) => (e) => {
-    const newCollects = [...collects];
-    const newCollect = { ...collects[idx] };
-    newCollect.selected = e.target.checked;
-    newCollects[idx] = newCollect;
-    setCollects(newCollects);
   };
 
   // ========================================
@@ -116,18 +107,10 @@ export default function TournamentDelete() {
       if (isSending) return;
       setIsSending(true);
       try {
-        const res = await fetch(`${SERVER_URL}/api/game/tours/new`, {
-          method: "POST",
-          body: JSON.stringify({
-            title: state.title,
-            collects: collects
-              .filter((collect) => collect.selected)
-              .map((collect) => collect.id),
-          }),
-          headers: {
-            "content-type": "application/json",
-          },
-        });
+        const res = await fetch(
+          `${SERVER_URL}/api/game/tours/${state.tourID}`,
+          { method: "DELETE" }
+        );
         if (res.ok) {
           setDialogIsOpen(true);
         } else {
@@ -138,50 +121,37 @@ export default function TournamentDelete() {
         setError(err.message);
       } finally {
         if (isMounted.current) setIsSending(false);
-        setState({ ...state, title: "" });
       }
     },
-    [isSending, state, collects]
+    [isSending, state.tourID]
   );
 
   // ========================================
 
-  return collects ? (
+  return tours ? (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
           Delete Tournament
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
-          <TextField
-            error={Boolean(error)}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="title"
-            label="Title"
-            name="title"
-            value={state.title}
-            onChange={handleChange}
-          />
           <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">Collects</FormLabel>
-            <FormGroup>
-              {collects.map((collect, idx) => (
+            <FormLabel component="legend">Tournaments</FormLabel>
+            <RadioGroup
+              aria-label="tourID"
+              name="tourID"
+              value={state.tourID}
+              onChange={handleChange}
+            >
+              {tours.map((tour) => (
                 <FormControlLabel
-                  key={collect.id}
-                  control={
-                    <Checkbox
-                      checked={collects[idx].selected}
-                      onChange={handleCheckboxChange(idx)}
-                      name={collect.title}
-                    />
-                  }
-                  label={collect.title}
+                  key={tour.id}
+                  value={`${tour.id}`}
+                  control={<Radio />}
+                  label={tour.title}
                 />
               ))}
-            </FormGroup>
+            </RadioGroup>
           </FormControl>
           <FormHelperText error={Boolean(error)} className={classes.errorMsg}>
             {error}
