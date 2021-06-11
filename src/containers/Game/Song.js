@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline";
-
+import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { useTypoStyles, useBackgroundStyles } from "../../styles";
 import { useVideoStyles } from "../../components/VideoStyle.js"
 
-const lyric_styles = {
+const uselyricStyles = makeStyles({
   main: {
     color: "#FFFFFF",
     fontSize: "2em",
@@ -31,9 +31,9 @@ const lyric_styles = {
     fontStyle: "normal",
     color: "#FF0000",
   },
-};
+});
 
-const botton_styles = {
+const useBottonStyles = makeStyles({
   main: {
     display: "inline-block",
     color: "white",
@@ -42,7 +42,7 @@ const botton_styles = {
     display: "inline-block",
     color: "white",
   },
-};
+});
 
 // const videoStyles = {
   // main: {
@@ -55,7 +55,7 @@ const botton_styles = {
   // },
 // };
 
-const lyrics_box_styles = {
+const useLyricsBoxStyles = makeStyles({
   root: {
     backgroundClasses: "white",
 	marginTop: "0%",
@@ -66,7 +66,7 @@ const lyrics_box_styles = {
   transparent: {
     marginTop: "2%",
   },
-};
+});
 
 function renderHiddenAnswerLine(cur_line) {
   let line = "";
@@ -86,7 +86,11 @@ export default function Song({ song }) {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
   const VideoStyle = useVideoStyles();
-
+  const lyricStyles = uselyricStyles();
+  const BottonStyles = useBottonStyles();
+  const lyricsBoxStyles = useLyricsBoxStyles();
+  
+  
   const YT = window.YT;
   const player = useRef(null);
   const interval = useRef(null);
@@ -200,22 +204,22 @@ export default function Song({ song }) {
             </IconButton>
           )}
 
-          <Box style={lyrics_box_styles.transparent}></Box>
+          <Box className={lyricsBoxStyles.transparent}></Box>
           <Box
-            style={lyrics_box_styles.root}
+            className={lyricsBoxStyles.root}
             display="flex"
             flexDirection="column"
             justifyContent="center"
           >
-            <Typography variant="subtitle1" style={lyric_styles.front}>
+            <Typography variant="subtitle1" className={lyricStyles.front}>
               {prevLine}
             </Typography>
 
-            <Typography variant="subtitle1" style={lyric_styles.main}>
+            <Typography variant="subtitle1" className={lyricStyles.main}>
               {line}
             </Typography>
 
-            <Typography variant="subtitle1" style={lyric_styles.behind}>
+            <Typography variant="subtitle1" className={lyricStyles.behind}>
               {nextLine}
             </Typography>
           </Box>
@@ -225,7 +229,7 @@ export default function Song({ song }) {
               <Button
                 variant="contained"
                 color="primary"
-                style={botton_styles.main}
+                className={BottonStyles.main}
                 onClick={showMissLyrics}
               >
                 Show Answer
@@ -235,7 +239,7 @@ export default function Song({ song }) {
               <Button
                 variant="contained"
                 color="primary"
-                style={botton_styles.other}
+                className={BottonStyles.other}
                 onClick={continuePlaying}
               >
                 Continue Playing
