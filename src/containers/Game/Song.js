@@ -10,25 +10,26 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 
 import { useTypoStyles, useBackgroundStyles } from "../../styles";
+import { useVideoStyles } from "../../components/VideoStyle.js"
 
 const lyric_styles = {
   main: {
-    color: "#cab1f6",
-    fontSize: 30,
+    color: "#FFFFFF",
+    fontSize: "2em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
   },
   front: {
-    fontSize: 20,
+    fontSize: "1em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
-    color: "#404040",
+    color: "#FF0000",
   },
   behind: {
-    fontSize: 20,
+    fontSize: "1em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
-    color: "#404040",
+    color: "#FF0000",
   },
 };
 
@@ -43,16 +44,27 @@ const botton_styles = {
   },
 };
 
+// const videoStyles = {
+  // main: {
+    // width: "100%",
+    // height: "100%",
+	// marginLeft: "auto",
+	// marginRight: "auto",
+	// marginTop: "0%",
+	// marginBottom: "0%",
+  // },
+// };
+
 const lyrics_box_styles = {
   root: {
     backgroundClasses: "white",
-    marginLeft: "25%",
-    marginRight: "25%",
-    borderRadius: 20,
+	marginTop: "0%",
+    marginLeft: "5%",
+    marginRight: "5%",
     boxShadow: "none",
   },
   transparent: {
-    marginTop: "7%",
+    marginTop: "2%",
   },
 };
 
@@ -68,9 +80,12 @@ function renderHiddenAnswerLine(cur_line) {
   return line;
 }
 
+
+
 export default function Song({ song }) {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
+  const VideoStyle = useVideoStyles();
 
   const YT = window.YT;
   const player = useRef(null);
@@ -180,7 +195,7 @@ export default function Song({ song }) {
               {song.name} - {song.singer}
             </h2>
           )}
-          <div id="player" />
+          <div id="player" className={VideoStyle.main}/>
           {isNotStart && (
             <IconButton variant="secondary" onClick={playVideo}>
               <PlayCircleOutlineIcon fontSize={"large"} />
