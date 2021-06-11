@@ -152,8 +152,6 @@ export default function Song({ song }) {
 
   const initYoutube = () => {
     player.current = new YT.Player("player", {
-      width: 960,
-      height: 640,
       videoId: song.video_id,
       playerVars: {
         cc_load_policy: 0,
@@ -184,7 +182,7 @@ export default function Song({ song }) {
     <Box>
       <Box
         position="relative"
-        height="95vh"
+        height="140vh"
         display="flex"
         flexDirection="column"
         className={backgroundClasses.dark}

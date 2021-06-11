@@ -40,6 +40,7 @@ export default function Tournament({ tourID, updatePlayCollect }) {
         height="95vh"
         display="flex"
         flexDirection="column"
+		flexWrap="wrap"
         className={backgroundClasses.dark}
       >
         <div>
