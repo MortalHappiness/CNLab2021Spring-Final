@@ -37,7 +37,7 @@ export default function Bar() {
             <IconButton style={{ color: "white" }} component={Link} to="/">
               <HomeIcon />
             </IconButton>
-            <b className={typoClasses.sign}>CNL gourp #7</b>
+            <b className={typoClasses.sign}>CNL Group #7</b>
 
             <div className={barClasses.loginbutton}>
               <Button
