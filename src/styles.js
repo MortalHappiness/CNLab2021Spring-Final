@@ -48,10 +48,12 @@ export const useTypoStyles = makeStyles((theme) => ({
     fontStyle: "normal",
   },
   songheader: {
-    padding: theme.spacing(1),
-
+	marginLeft: "5%",
+	marginRight: "5%",
+	marginTop: "1%",
+	marginBottom: "1.7%",
     color: "white",
-    fontSize: 50,
+    fontSize: "3em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
   },

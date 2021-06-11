@@ -20,13 +20,13 @@ const uselyricStyles = makeStyles({
     fontStyle: "normal",
   },
   front: {
-    fontSize: "1em",
+    fontSize: "1.5em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
     color: "#FF0000",
   },
   behind: {
-    fontSize: "1em",
+    fontSize: "1.5em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
     color: "#FF0000",
@@ -58,10 +58,13 @@ const useBottonStyles = makeStyles({
 const useLyricsBoxStyles = makeStyles({
   root: {
     backgroundClasses: "white",
-	marginTop: "0%",
+	marginTop: "2%",
     marginLeft: "5%",
     marginRight: "5%",
     boxShadow: "none",
+	display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
   },
   transparent: {
     marginTop: "2%",
@@ -204,12 +207,9 @@ export default function Song({ song }) {
             </IconButton>
           )}
 
-          <Box className={lyricsBoxStyles.transparent}></Box>
+          
           <Box
             className={lyricsBoxStyles.root}
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
           >
             <Typography variant="subtitle1" className={lyricStyles.front}>
               {prevLine}
