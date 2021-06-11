@@ -22,19 +22,6 @@ export const useButtonStyles = makeStyles({
   },
 });
 
-export const useBarStyles = makeStyles({
-  above: {
-    flexGrow: 1,
-    color: "#283747",
-  },
-  loginbutton: {
-    marginLeft: "auto",
-  },
-  menubutton: {
-    color: "white",
-  },
-});
-
 export const useTypoStyles = makeStyles((theme) => ({
   header: {
     padding: theme.spacing(1),
