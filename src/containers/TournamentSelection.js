@@ -9,11 +9,22 @@ import Button from "@material-ui/core/Button";
 import MusicIcon from "@material-ui/icons/MusicNoteTwoTone";
 
 import { useTypoStyles, useBackgroundStyles } from "../styles";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useTourLayoutStyles = makeStyles({
+  root: {
+    justifyContent: "center",
+	alignItems: "center",
+	display: "flex",
+	flexWrap: "wrap",
+  },
+});
 
 export default function TournamentSelection() {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
-
+  const tourLayoutClasses = useTourLayoutStyles();
+  
   const [NTours, setNTours] = useState(0);
 
   useEffect(() => {
@@ -40,15 +51,18 @@ export default function TournamentSelection() {
         </Box>
       );
     }
-    return array;
+    return (
+	<div className={tourLayoutClasses.root}	>
+		{array}
+	</div>);
   }, [NTours]);
 
   return (
     <>
       <Box
         position="relative"
-        height="95vh"
         display="flex"
+		height="95vh"
         flexDirection="column"
         className={backgroundClasses.dark}
       >

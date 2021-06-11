@@ -71,5 +71,6 @@ export const useBackgroundStyles = makeStyles({
   dark: {
     backgroundImage: `url(${img_dark})`,
     width: "100%",
+	height: "cover",
   },
 });
