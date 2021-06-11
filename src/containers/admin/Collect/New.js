@@ -148,7 +148,7 @@ export default function CollectNew() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
-          Create Collect
+          New Collect
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField

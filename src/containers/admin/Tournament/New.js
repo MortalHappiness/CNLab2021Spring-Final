@@ -150,7 +150,7 @@ export default function TournamentNew() {
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
-          Create Tournament
+          New Tournament
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
