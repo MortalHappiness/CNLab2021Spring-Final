@@ -263,6 +263,7 @@ function SubtitleForm({
   }, []);
 
   const handleSubmit = async (e) => {
+    console.log("hello world");
     e.preventDefault();
     if (isSending) return;
     setIsSending(true);
@@ -491,6 +492,7 @@ export default function SongNew() {
   // Handle submit
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(null);
+  const [songid, setSongid] = useState(null);
   const isMounted = useRef(true);
 
   // set isMounted to false when we unmount the component
@@ -545,6 +547,8 @@ export default function SongNew() {
         },
       });
       if (res.ok) {
+        const json = await res.json();
+        setSongid(json.data);
         setDialogIsOpen(true);
         setError(null);
       } else {
@@ -680,8 +684,8 @@ export default function SongNew() {
         maxWidth="xs"
         onClose={handleDialogClose}
       >
-        <DialogTitle className={classes.dialogTitle}>
-          <b>Success!</b>
+        <DialogTitle className={classes.dialogTitle} songid={songid}>
+          <b>Success! Song ID: {songid}</b>
         </DialogTitle>
         <Divider />
         <DialogActions>
