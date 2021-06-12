@@ -26,10 +26,11 @@ export default function HomePage() {
   const history = useHistory();
 
   const startNow = () => {
-    fetch(`${SERVER_URL}/api/game/tours`)
+    fetch(`${SERVER_URL}/api/v2/game/tours`)
       .then((res) => res.json())
       .then((json) => {
-        const tourID = randint(1, json.data);
+        const tours = json.data;
+        const tourID = tours[randint(0, tours.length+1)].id;
         history.push(`/Tour/${tourID}`);
       })
       .catch((e) => console.error(e));
