@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Checkbox from "@material-ui/core/Checkbox";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -13,6 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -71,13 +73,17 @@ function parseYoutubeURL(url) {
 
 // ========================================
 
-function CheckSongForm({ setSubtitles, setTitle, setFormState }) {
+function CheckSongForm({
+  songURL,
+  setSongURL,
+  setSubtitles,
+  setTitle,
+  setFormState,
+}) {
   const classes = useStyles();
 
   // ========================================
   // Handle input fields
-
-  const [songURL, setSongURL] = useState("");
 
   const handleChange = (e) => {
     setSongURL(e.target.value);
@@ -193,23 +199,29 @@ function CheckSongForm({ setSubtitles, setTitle, setFormState }) {
   );
 }
 
-function SubtitleForm({ title, subtitles, languages, setFormState, setLines }) {
+function SubtitleForm({
+  title,
+  language,
+  setLanguage,
+  subtitles,
+  languages,
+  setFormState,
+  setLines,
+}) {
   const classes = useStyles();
 
   // ========================================
   // Handle input fields
 
-  const [subtitle, setSubtitle] = useState("");
-
   const handleSubtitleChange = (e) => {
-    setSubtitle(e.target.value);
+    setLanguage(e.target.value);
   };
 
   const switchDisabled = !Boolean(subtitles.length);
   const [useCustomSubtitle, setUseCustomSubtitle] = useState(switchDisabled);
 
   const handleSwitchChange = (e) => {
-    setSubtitle("");
+    setLanguage("");
     setUseCustomSubtitle(e.target.checked);
   };
 
@@ -240,20 +252,23 @@ function SubtitleForm({ title, subtitles, languages, setFormState, setLines }) {
         // Download subtitle from youtube
         let api;
         subtitles.forEach((x) => {
-          if (x.langCode === subtitle) api = x.baseURL;
+          if (x.langCode === language) api = x.baseURL;
         });
         const res = await fetch(api);
         const text = await res.text();
         const data = await parseXMLString(text);
         if (data.transcript.text) {
-          const newLines = data.transcript.text.map((l) =>
-            l._.replace(/&#39;/g, "'")
-          );
+          const newLines = {};
+          data.transcript.text
+            .map((l) => l._.replace(/&#39;/g, "'"))
+            .forEach((l, idx) => {
+              newLines[idx] = { text: l, selected: false };
+            });
           setLines(newLines);
         }
       } else {
         // Convert subtitle file to lines
-        console.log(subtitle);
+        console.log(language);
         console.log(file);
       }
       setError(null);
@@ -288,7 +303,7 @@ function SubtitleForm({ title, subtitles, languages, setFormState, setLines }) {
           <InputLabel id="language-label">Language</InputLabel>
           <Select
             id="subtitle"
-            value={subtitle}
+            value={language}
             onChange={handleSubtitleChange}
             required
           >
@@ -366,11 +381,11 @@ export default function SongNew() {
   const [formState, setFormState] = useState(FORM_STATE_INIT);
   const [languages, setLanguages] = useState(null);
   const [genres, setGenres] = useState(null);
+  const [songURL, setSongURL] = useState("");
   const [title, setTitle] = useState("");
   const [subtitles, setSubtitles] = useState([]);
   const [lines, setLines] = useState([]);
-
-  console.log(lines);
+  const [language, setLanguage] = useState("");
 
   useEffect(() => {
     fetch(`${SERVER_URL}/api/game/languages`)
@@ -382,7 +397,11 @@ export default function SongNew() {
     fetch(`${SERVER_URL}/api/game/genres`)
       .then((res) => res.json())
       .then((json) => {
-        setGenres(json.data);
+        const newGenres = {};
+        json.data.forEach((genre) => {
+          newGenres[genre] = false;
+        });
+        setGenres(newGenres);
       })
       .catch((e) => console.error(e));
   }, []);
@@ -391,7 +410,8 @@ export default function SongNew() {
   // Handle input fields
 
   const [state, setState] = useState({
-    songURL: "",
+    artistName: "",
+    songName: "",
   });
 
   const handleChange = (e) => {
@@ -400,6 +420,19 @@ export default function SongNew() {
       ...state,
       [name]: e.target.value,
     });
+  };
+
+  const handleGenreCheckboxChange = (key) => (e) => {
+    setGenres({
+      ...genres,
+      [key]: e.target.checked,
+    });
+  };
+
+  const handleLineCheckboxChange = (key) => (e) => {
+    const newLines = { ...lines };
+    newLines[key].selected = e.target.checked;
+    setLines(newLines);
   };
 
   // ========================================
@@ -422,50 +455,75 @@ export default function SongNew() {
     };
   }, []);
 
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      if (isSending) return;
-      setIsSending(true);
-      try {
-        //const res = await fetch(`${SERVER_URL}/api/game/tours/new`, {
-        //  method: "POST",
-        //  body: JSON.stringify({
-        //    title: state.title,
-        //    collects: collects
-        //      .filter((collect) => collect.selected)
-        //      .map((collect) => collect.id),
-        //  }),
-        //  headers: {
-        //    "content-type": "application/json",
-        //  },
-        //});
-        //if (res.ok) {
-        //  setDialogIsOpen(true);
-        //} else {
-        //  throw new Error("Invalid format");
-        //}
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        if (isMounted.current) setIsSending(false);
-        setState({ ...state, songURL: "" });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSending) return;
+    setIsSending(true);
+    try {
+      const genresArray = [];
+      Object.keys(genres).forEach((genre) => {
+        if (genres[genre]) genresArray.push(genre);
+      });
+      const genresStr = genresArray.join();
+      if (!genresStr) {
+        setError("Please select genres");
+        return;
       }
-    },
-    [isSending, state]
-  );
 
+      const missLyricsArray = [];
+      Object.keys(lines).forEach((key) => {
+        if (lines[key].selected) missLyricsArray.push(parseInt(key));
+      });
+      if (!missLyricsArray.length) {
+        setError("Please select lines");
+        return;
+      }
+
+      //const filetype = useCustomSubtitle ? "file" : "youtube";
+      const filetype = "youtube";
+
+      const body = {
+        url: songURL,
+        singer: state.artistName,
+        genre: genresStr,
+        name: state.songName,
+        language,
+        file_type: filetype,
+        miss_lyrics: missLyricsArray,
+      };
+
+      const res = await fetch(`${SERVER_URL}/api/game/songs/new`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      if (res.ok) {
+        setDialogIsOpen(true);
+        setError(null);
+      } else {
+        const json = await res.json();
+        setError(json.msg);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      if (isMounted.current) setIsSending(false);
+    }
+  };
   // ========================================
 
   return languages && genres ? (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
         <Typography component="h1" variant="h4">
           New Song
         </Typography>
         {formState === FORM_STATE_INIT && (
           <CheckSongForm
+            songURL={songURL}
+            setSongURL={setSongURL}
             setSubtitles={setSubtitles}
             setTitle={setTitle}
             setFormState={setFormState}
@@ -473,6 +531,8 @@ export default function SongNew() {
         )}
         {formState === FORM_STATE_CHECKED && (
           <SubtitleForm
+            language={language}
+            setLanguage={setLanguage}
             title={title}
             subtitles={subtitles}
             languages={languages}
@@ -480,7 +540,91 @@ export default function SongNew() {
             setFormState={setFormState}
           />
         )}
-        {formState === FORM_STATE_FINAL && <h1>Final</h1>}
+        {formState === FORM_STATE_FINAL && (
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <Typography
+              component="h2"
+              variant="h5"
+              align="left"
+              style={{ marginTop: "1em" }}
+            >
+              Title: {title}
+            </Typography>
+            <TextField
+              error={Boolean(error)}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="artistName"
+              label="Artist Name"
+              name="artistName"
+              value={state.artistName}
+              onChange={handleChange}
+            />
+            <TextField
+              error={Boolean(error)}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="artistName"
+              label="Song Name"
+              name="songName"
+              value={state.songName}
+              onChange={handleChange}
+            />
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Genres</FormLabel>
+              <FormGroup row>
+                {Object.keys(genres).map((genre) => (
+                  <FormControlLabel
+                    key={genre}
+                    control={
+                      <Checkbox
+                        checked={genres[genre]}
+                        onChange={handleGenreCheckboxChange(genre)}
+                        name={genre}
+                      />
+                    }
+                    label={`${genre}`}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Lines</FormLabel>
+              <FormGroup>
+                {Object.keys(lines).map((key) => (
+                  <FormControlLabel
+                    key={key}
+                    control={
+                      <Checkbox
+                        checked={lines[key].selected}
+                        onChange={handleLineCheckboxChange(key)}
+                        name={lines[key].text}
+                      />
+                    }
+                    label={`[${key}] ${lines[key].text}`}
+                  />
+                ))}
+              </FormGroup>
+            </FormControl>
+            <FormHelperText error={Boolean(error)} className={classes.errorMsg}>
+              {error}
+            </FormHelperText>
+            <Button
+              type="submit"
+              disabled={isSending}
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Submit
+            </Button>
+          </form>
+        )}
       </div>
       <Dialog
         aria-label="dialog"
