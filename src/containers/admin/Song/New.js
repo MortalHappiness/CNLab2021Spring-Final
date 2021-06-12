@@ -279,11 +279,15 @@ function SubtitleForm({
         const data = await parseXMLString(text);
         if (data.transcript.text) {
           const newLines = {};
-          data.transcript.text
-            .map((l) => l._.replace(/&#39;/g, "'"))
-            .forEach((l, idx) => {
-              newLines[idx] = { text: l, selected: false };
-            });
+          console.log(data.transcript.text);
+          data.transcript.text.forEach((l, idx) => {
+            if (l._) {
+              newLines[idx] = {
+                text: l._.replace(/&#39;/g, "'"),
+                selected: false,
+              };
+            }
+          });
           setLines(newLines);
         }
         setFiletype("youtube");
