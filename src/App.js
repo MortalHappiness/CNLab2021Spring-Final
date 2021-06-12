@@ -6,7 +6,9 @@ import TournamentSelection from "./containers/TournamentSelection";
 import Game from "./containers/Game";
 import Admin from "./containers/admin";
 import SongNew from "./containers/admin/Song/New";
+import SongDelete from "./containers/admin/Song/Delete";
 import CollectNew from "./containers/admin/Collect/New";
+import CollectDelete from "./containers/admin/Collect/Delete";
 import TournamentNew from "./containers/admin/Tournament/New";
 import TournamentDelete from "./containers/admin/Tournament/Delete";
 import Bar from "./components/Bar.js";
@@ -28,8 +30,14 @@ function App() {
           <Route path="/admin/Song/New">
             <SongNew />
           </Route>
+          <Route path="/admin/Song/Delete">
+            <SongDelete />
+          </Route>
           <Route path="/admin/Collect/New">
             <CollectNew />
+          </Route>
+          <Route path="/admin/Collect/Delete">
+            <CollectDelete />
           </Route>
           <Route path="/admin/Tournament/New">
             <TournamentNew />

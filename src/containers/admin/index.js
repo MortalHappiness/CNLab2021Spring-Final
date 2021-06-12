@@ -63,6 +63,26 @@ export default function Admin() {
           className={classes.button}
           fullWidth
           component={Link}
+          to="/admin/Song/Delete"
+        >
+          Delete Song
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          fullWidth
+          component={Link}
+          to="/admin/Collect/Delete"
+        >
+          Delete Collect
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          fullWidth
+          component={Link}
           to="/admin/Tournament/Delete"
         >
           Delete Tournament
