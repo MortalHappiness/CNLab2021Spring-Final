@@ -23,6 +23,7 @@ import Input from "@material-ui/core/Input";
 
 import xml2js from "xml2js";
 import { promisify } from "util";
+import { encode as b64encode } from "js-base64";
 
 import Loading from "../../../components/Loading";
 
@@ -64,11 +65,25 @@ const FORM_STATE_CHECKED = 1;
 const FORM_STATE_FINAL = 2;
 
 // ========================================
+// Helper functions
 
 function parseYoutubeURL(url) {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   const match = url.match(regExp);
   return match && match[7].length === 11 ? match[7] : "";
+}
+
+// Reference:
+// https://stackoverflow.com/questions/34495796/javascript-promises-with-filereader
+function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onload = () => {
+      resolve(fr.result);
+    };
+    fr.onerror = reject;
+    fr.readAsText(file, "UTF-8");
+  });
 }
 
 // ========================================
@@ -201,6 +216,8 @@ function CheckSongForm({
 
 function SubtitleForm({
   title,
+  setFileContent,
+  setFiletype,
   language,
   setLanguage,
   subtitles,
@@ -213,7 +230,7 @@ function SubtitleForm({
   // ========================================
   // Handle input fields
 
-  const handleSubtitleChange = (e) => {
+  const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
   };
 
@@ -229,6 +246,8 @@ function SubtitleForm({
   const handleFileChange = (e) => {
     setFile(e.target.value);
   };
+
+  const fileRef = useRef();
 
   // ========================================
   // Handle submit
@@ -266,10 +285,33 @@ function SubtitleForm({
             });
           setLines(newLines);
         }
+        setFiletype("youtube");
       } else {
         // Convert subtitle file to lines
-        console.log(language);
-        console.log(file);
+        const f = fileRef.current.files[0];
+        const fileContent = await readFile(f);
+        const filetype = file.split(".").pop();
+        const b64FileContent = b64encode(fileContent);
+        const res = await fetch(`${SERVER_URL}/api/game/subtitles/convert`, {
+          method: "POST",
+          body: JSON.stringify({
+            file_type: filetype,
+            file: b64FileContent,
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        const json = await res.json();
+        const newLines = {};
+        json.data
+          .map((l) => l.line)
+          .forEach((l, idx) => {
+            newLines[idx] = { text: l, selected: false };
+          });
+        setLines(newLines);
+        setFiletype(filetype);
+        setFileContent(b64FileContent);
       }
       setError(null);
       setFormState(FORM_STATE_FINAL);
@@ -302,9 +344,9 @@ function SubtitleForm({
         <FormControl className={classes.formControl}>
           <InputLabel id="language-label">Language</InputLabel>
           <Select
-            id="subtitle"
+            id="language"
             value={language}
-            onChange={handleSubtitleChange}
+            onChange={handleLanguageChange}
             required
           >
             {!useCustomSubtitle
@@ -336,6 +378,7 @@ function SubtitleForm({
             fullWidth
             id="file"
             name="file"
+            inputRef={fileRef}
             value={file}
             onChange={handleFileChange}
           />
@@ -386,6 +429,8 @@ export default function SongNew() {
   const [subtitles, setSubtitles] = useState([]);
   const [lines, setLines] = useState([]);
   const [language, setLanguage] = useState("");
+  const [filetype, setFiletype] = useState("");
+  const [fileContent, setFileContent] = useState("");
 
   useEffect(() => {
     fetch(`${SERVER_URL}/api/game/languages`)
@@ -479,9 +524,6 @@ export default function SongNew() {
         return;
       }
 
-      //const filetype = useCustomSubtitle ? "file" : "youtube";
-      const filetype = "youtube";
-
       const body = {
         url: songURL,
         singer: state.artistName,
@@ -491,6 +533,9 @@ export default function SongNew() {
         file_type: filetype,
         miss_lyrics: missLyricsArray,
       };
+      if (filetype !== "youtube") {
+        body.file = fileContent;
+      }
 
       const res = await fetch(`${SERVER_URL}/api/game/songs/new`, {
         method: "POST",
@@ -531,6 +576,8 @@ export default function SongNew() {
         )}
         {formState === FORM_STATE_CHECKED && (
           <SubtitleForm
+            setFileContent={setFileContent}
+            setFiletype={setFiletype}
             language={language}
             setLanguage={setLanguage}
             title={title}
