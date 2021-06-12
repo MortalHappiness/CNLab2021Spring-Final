@@ -17,6 +17,10 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Switch from "@material-ui/core/Switch";
+import Input from "@material-ui/core/Input";
+
+import xml2js from "xml2js";
+import { promisify } from "util";
 
 import Loading from "../../../components/Loading";
 
@@ -24,6 +28,8 @@ import { languageCodeMap } from "../../../utils";
 import { SERVER_URL } from "../../../constants.json";
 
 // ========================================
+
+const parseXMLString = promisify(xml2js.parseString);
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -80,16 +86,33 @@ function CheckSongForm({ setSubtitles, setTitle, setFormState }) {
   // ========================================
   // Helper functions
 
+  const fetchTitle = useCallback(
+    async (videoID) => {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAuBJUeyvZkZaXHFNSjamWMkJjhk27Ccb0&part=snippet&id=${videoID}`
+      );
+      const json = await res.json();
+      if (!res.ok) {
+        setError(json.error.message);
+        return false;
+      }
+      if (!json.pageInfo.totalResults) {
+        setError("No results");
+        return false;
+      }
+      setTitle(json.items[0].snippet.title);
+      return true;
+    },
+    [setTitle]
+  );
+
   const fetchCaption = useCallback(
     async (videoID) => {
       const res = await fetch(
         `${SERVER_URL}/api/game/captions/youtube?url=https://www.youtube.com/watch?v=${videoID}`
       );
       const json = await res.json();
-      if (!res.ok) {
-        setError(json.msg);
-        return false;
-      }
+      if (!res.ok) return;
       const newSubtitles = Object.entries(json.data).map(
         ([langCode, baseURL]) => {
           return {
@@ -100,25 +123,8 @@ function CheckSongForm({ setSubtitles, setTitle, setFormState }) {
         }
       );
       setSubtitles(newSubtitles);
-      return true;
     },
     [setSubtitles]
-  );
-
-  const fetchTitle = useCallback(
-    async (videoID) => {
-      const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAuBJUeyvZkZaXHFNSjamWMkJjhk27Ccb0&part=snippet&id=${videoID}`
-      );
-      const json = await res.json();
-      if (!json.pageInfo.totalResults) {
-        setError("No results");
-        return false;
-      }
-      setTitle(json.items[0].snippet.title);
-      return true;
-    },
-    [setTitle]
   );
 
   // ========================================
@@ -140,15 +146,12 @@ function CheckSongForm({ setSubtitles, setTitle, setFormState }) {
       if (isSending) return;
       setIsSending(true);
       try {
-        let ok;
         const videoID = parseYoutubeURL(songURL);
-        ok = await fetchCaption(videoID);
+        const ok = await fetchTitle(videoID);
         if (!ok) return;
-        ok = await fetchTitle(videoID);
-        if (!ok) return;
+        await fetchCaption(videoID);
         setError(null);
         setFormState(FORM_STATE_CHECKED);
-        setIsSending(false);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -190,7 +193,7 @@ function CheckSongForm({ setSubtitles, setTitle, setFormState }) {
   );
 }
 
-function SubtitleForm({ title, subtitles, setFormState }) {
+function SubtitleForm({ title, subtitles, languages, setFormState, setLines }) {
   const classes = useStyles();
 
   // ========================================
@@ -202,10 +205,17 @@ function SubtitleForm({ title, subtitles, setFormState }) {
     setSubtitle(e.target.value);
   };
 
-  const [useYoutubeSubtitle, setUseYoutubeSubtitle] = useState(true);
+  const switchDisabled = !Boolean(subtitles.length);
+  const [useCustomSubtitle, setUseCustomSubtitle] = useState(switchDisabled);
 
   const handleSwitchChange = (e) => {
-    setUseYoutubeSubtitle(e.target.checked);
+    setSubtitle("");
+    setUseCustomSubtitle(e.target.checked);
+  };
+
+  const [file, setFile] = useState("");
+  const handleFileChange = (e) => {
+    setFile(e.target.value);
   };
 
   // ========================================
@@ -221,21 +231,39 @@ function SubtitleForm({ title, subtitles, setFormState }) {
     };
   }, []);
 
-  const handleSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      if (isSending) return;
-      setIsSending(true);
-      try {
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        if (isMounted.current) setIsSending(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSending) return;
+    setIsSending(true);
+    try {
+      if (!useCustomSubtitle) {
+        // Download subtitle from youtube
+        let api;
+        subtitles.forEach((x) => {
+          if (x.langCode === subtitle) api = x.baseURL;
+        });
+        const res = await fetch(api);
+        const text = await res.text();
+        const data = await parseXMLString(text);
+        if (data.transcript.text) {
+          const newLines = data.transcript.text.map((l) =>
+            l._.replace(/&#39;/g, "'")
+          );
+          setLines(newLines);
+        }
+      } else {
+        // Convert subtitle file to lines
+        console.log(subtitle);
+        console.log(file);
       }
-    },
-    [isSending]
-  );
+      setError(null);
+      setFormState(FORM_STATE_FINAL);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      if (isMounted.current) setIsSending(false);
+    }
+  };
 
   return (
     <form className={classes.form} onSubmit={handleSubmit}>
@@ -257,30 +285,47 @@ function SubtitleForm({ title, subtitles, setFormState }) {
       </Typography>
       <FormGroup>
         <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Language</InputLabel>
+          <InputLabel id="language-label">Language</InputLabel>
           <Select
             id="subtitle"
             value={subtitle}
             onChange={handleSubtitleChange}
+            required
           >
-            {subtitles.map((subtitle) => (
-              <MenuItem key={subtitle.langCode} value={subtitle.langCode}>
-                {subtitle.langTranslated}
-              </MenuItem>
-            ))}
+            {!useCustomSubtitle
+              ? subtitles.map((subtitle) => (
+                  <MenuItem key={subtitle.langCode} value={subtitle.langCode}>
+                    {subtitle.langTranslated}
+                  </MenuItem>
+                ))
+              : languages.map((language) => (
+                  <MenuItem key={language} value={language}>
+                    {languageCodeMap.get(language)}
+                  </MenuItem>
+                ))}
           </Select>
         </FormControl>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={useYoutubeSubtitle}
-              onChange={handleSwitchChange}
-              name="useYoutubeSubtitle"
-            />
-          }
-          label="Use Youtube cc subtitle"
-        />
       </FormGroup>
+      {useCustomSubtitle && (
+        <>
+          <Typography
+            id="continuous-slider"
+            align="left"
+            style={{ marginTop: "1em" }}
+          >
+            LRC/SRT file upload
+          </Typography>
+          <Input
+            type="file"
+            required
+            fullWidth
+            id="file"
+            name="file"
+            value={file}
+            onChange={handleFileChange}
+          />
+        </>
+      )}
       <FormHelperText error={Boolean(error)} className={classes.errorMsg}>
         {error}
       </FormHelperText>
@@ -292,8 +337,24 @@ function SubtitleForm({ title, subtitles, setFormState }) {
         color="primary"
         className={classes.submit}
       >
-        Submit
+        {useCustomSubtitle ? "Upload" : "Download cc subtitle from Youtube"}
       </Button>
+      {!switchDisabled && (
+        <FormControlLabel
+          control={
+            <Switch
+              checked={useCustomSubtitle}
+              onChange={handleSwitchChange}
+              name="useCustomSubtitle"
+            />
+          }
+          label="Use custom cc subtitle instead of Youtube"
+        />
+      )}
+      <FormHelperText className={classes.errorMsg} error>
+        {switchDisabled &&
+          "There are no cc subtitles in this youtube url. Please upload your custom cc subtitle file."}
+      </FormHelperText>
     </form>
   );
 }
@@ -307,6 +368,9 @@ export default function SongNew() {
   const [genres, setGenres] = useState(null);
   const [title, setTitle] = useState("");
   const [subtitles, setSubtitles] = useState([]);
+  const [lines, setLines] = useState([]);
+
+  console.log(lines);
 
   useEffect(() => {
     fetch(`${SERVER_URL}/api/game/languages`)
@@ -408,7 +472,13 @@ export default function SongNew() {
           />
         )}
         {formState === FORM_STATE_CHECKED && (
-          <SubtitleForm title={title} subtitles={subtitles} />
+          <SubtitleForm
+            title={title}
+            subtitles={subtitles}
+            languages={languages}
+            setLines={setLines}
+            setFormState={setFormState}
+          />
         )}
         {formState === FORM_STATE_FINAL && <h1>Final</h1>}
       </div>

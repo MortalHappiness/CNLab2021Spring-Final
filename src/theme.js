@@ -18,6 +18,11 @@ const theme = createMuiTheme({
     //    default:"#ffffff",
     //  },
   },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
+  },
 });
 
 export default theme;
