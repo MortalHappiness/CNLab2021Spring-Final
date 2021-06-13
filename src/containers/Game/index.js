@@ -15,6 +15,7 @@ export default function Game() {
 
   const [collect, setCollect] = useState(null);
   const [song, setSong] = useState(null);
+  const [playedCollectIDs, setPlayedCollectIDs] = useState([]);
 
   const updatePlayCollect = (collect) => {
     setState(STATE_COLLECT);
@@ -26,15 +27,26 @@ export default function Game() {
     setSong(song);
   };
 
+  const handleFinished = () => {
+    if (playedCollectIDs.includes(collect.id)) return;
+    setPlayedCollectIDs([...playedCollectIDs, collect.id]);
+  };
+
   return (
     <div>
       {state === STATE_INIT && (
-        <Tournament tourID={TourID} updatePlayCollect={updatePlayCollect} />
+        <Tournament
+          tourID={TourID}
+          updatePlayCollect={updatePlayCollect}
+          playedCollectIDs={playedCollectIDs}
+        />
       )}
       {state === STATE_COLLECT && (
         <Collect updatePlaySong={updatePlaySong} collect={collect} />
       )}
-      {state === STATE_SONG && <Song song={song} setState={setState} />}
+      {state === STATE_SONG && (
+        <Song song={song} setState={setState} handleFinished={handleFinished} />
+      )}
     </div>
   );
 }

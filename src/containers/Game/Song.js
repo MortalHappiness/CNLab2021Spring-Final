@@ -84,7 +84,7 @@ function renderHiddenAnswerLine(cur_line) {
   return line;
 }
 
-export default function Song({ song, setState }) {
+export default function Song({ song, setState, handleFinished }) {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
   const VideoStyle = useVideoStyles();
@@ -185,6 +185,7 @@ export default function Song({ song, setState }) {
 
   const handleClick = () => {
     setState(0);
+    handleFinished();
   };
 
   return (

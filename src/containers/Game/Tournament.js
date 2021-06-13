@@ -9,7 +9,11 @@ import MusicIcon from "@material-ui/icons/AlbumTwoTone";
 
 import { useTypoStyles, useBackgroundStyles } from "../../styles";
 
-export default function Tournament({ tourID, updatePlayCollect }) {
+export default function Tournament({
+  tourID,
+  updatePlayCollect,
+  playedCollectIDs,
+}) {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
 
@@ -53,6 +57,7 @@ export default function Tournament({ tourID, updatePlayCollect }) {
               key={collect.id}
               variant="contained"
               color="primary"
+              disabled={playedCollectIDs.includes(collect.id)}
             >
               <MusicIcon fontSize={"large"} />
               {collect.title}
