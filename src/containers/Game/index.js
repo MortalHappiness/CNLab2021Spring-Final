@@ -34,7 +34,7 @@ export default function Game() {
       {state === STATE_COLLECT && (
         <Collect updatePlaySong={updatePlaySong} collect={collect} />
       )}
-      {state === STATE_SONG && <Song song={song} />}
+      {state === STATE_SONG && <Song song={song} setState={setState} />}
     </div>
   );
 }

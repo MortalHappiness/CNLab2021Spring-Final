@@ -8,9 +8,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import { useTypoStyles, useBackgroundStyles } from "../../styles";
-import { useVideoStyles } from "../../components/VideoStyle.js"
+import { useVideoStyles } from "../../components/VideoStyle.js";
 
 const uselyricStyles = makeStyles({
   main: {
@@ -45,26 +46,26 @@ const useBottonStyles = makeStyles({
 });
 
 // const videoStyles = {
-  // main: {
-    // width: "100%",
-    // height: "100%",
-	// marginLeft: "auto",
-	// marginRight: "auto",
-	// marginTop: "0%",
-	// marginBottom: "0%",
-  // },
+// main: {
+// width: "100%",
+// height: "100%",
+// marginLeft: "auto",
+// marginRight: "auto",
+// marginTop: "0%",
+// marginBottom: "0%",
+// },
 // };
 
 const useLyricsBoxStyles = makeStyles({
   root: {
     backgroundClasses: "white",
-	marginTop: "2%",
+    marginTop: "2%",
     marginLeft: "5%",
     marginRight: "5%",
     boxShadow: "none",
-	display: "flex",
+    display: "flex",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   transparent: {
     marginTop: "2%",
@@ -83,17 +84,14 @@ function renderHiddenAnswerLine(cur_line) {
   return line;
 }
 
-
-
-export default function Song({ song }) {
+export default function Song({ song, setState }) {
   const typoClasses = useTypoStyles();
   const backgroundClasses = useBackgroundStyles();
   const VideoStyle = useVideoStyles();
   const lyricStyles = uselyricStyles();
   const BottonStyles = useBottonStyles();
   const lyricsBoxStyles = useLyricsBoxStyles();
-  
-  
+
   const YT = window.YT;
   const player = useRef(null);
   const interval = useRef(null);
@@ -185,32 +183,36 @@ export default function Song({ song }) {
     afterMissLyrics.current = true;
   };
 
+  const handleClick = () => {
+    setState(0);
+  };
+
   return (
     <Box>
       <Box
         position="relative"
-        height="140vh"
+        height="100vh"
         display="flex"
         flexDirection="column"
         className={backgroundClasses.dark}
       >
+        <IconButton onClick={handleClick}>
+          <ArrowBackIcon />
+        </IconButton>
         <div>
           {song && (
             <h2 className={typoClasses.songheader}>
               {song.name} - {song.singer}
             </h2>
           )}
-          <div id="player" className={VideoStyle.main}/>
+          <div id="player" className={VideoStyle.main} />
           {isNotStart && (
             <IconButton variant="secondary" onClick={playVideo}>
               <PlayCircleOutlineIcon fontSize={"large"} />
             </IconButton>
           )}
 
-          
-          <Box
-            className={lyricsBoxStyles.root}
-          >
+          <Box className={lyricsBoxStyles.root}>
             <Typography variant="subtitle1" className={lyricStyles.front}>
               {prevLine}
             </Typography>
