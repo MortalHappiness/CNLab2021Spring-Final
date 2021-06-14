@@ -21,16 +21,17 @@ const uselyricStyles = makeStyles({
     fontStyle: "normal",
   },
   front: {
+	marginTop: "1%",
     fontSize: "1.5em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
-    color: "#FF0000",
+    color: "#404040",
   },
   behind: {
     fontSize: "1.5em",
     fontFamily: "DejaVu Sans Mono, monospace",
     fontStyle: "normal",
-    color: "#FF0000",
+    color: "#404040",
   },
 });
 
@@ -58,14 +59,16 @@ const useBottonStyles = makeStyles({
 
 const useLyricsBoxStyles = makeStyles({
   root: {
-    backgroundClasses: "white",
-    marginTop: "2%",
+    background: "linear-gradient(90deg, #cab1f6,#f2cc97 )",
+    marginTop: "0%",
     marginLeft: "5%",
     marginRight: "5%",
     boxShadow: "none",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+	borderRadius: 50,
+    backgroundColor: 'transparent',
   },
   transparent: {
     marginTop: "2%",
@@ -192,10 +195,10 @@ export default function Song({ song, setState, handleFinished }) {
     <Box>
       <Box
         position="relative"
-        height="100vh"
+        height="110vh"
         display="flex"
         flexDirection="column"
-        className={backgroundClasses.dark}
+        className={backgroundClasses.main}
       >
         <IconButton onClick={handleClick}>
           <ArrowBackIcon />
@@ -213,19 +216,19 @@ export default function Song({ song, setState, handleFinished }) {
             </IconButton>
           )}
 
-          <Box className={lyricsBoxStyles.root}>
+        
             <Typography variant="subtitle1" className={lyricStyles.front}>
               {prevLine}
             </Typography>
-
+		<Box className={lyricsBoxStyles.root}>  
             <Typography variant="subtitle1" className={lyricStyles.main}>
               {line}
             </Typography>
-
+		</Box>  
             <Typography variant="subtitle1" className={lyricStyles.behind}>
               {nextLine}
             </Typography>
-          </Box>
+        
 
           <ButtonGroup>
             {missLyrics && (
