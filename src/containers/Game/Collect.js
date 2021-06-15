@@ -27,7 +27,7 @@ export default function Collect({ updatePlaySong, collect }) {
         height="95vh"
         display="flex"
         flexDirection="column"
-        className={backgroundClasses.dark}
+        className={backgroundClasses.main}
       >
         <div>
           <h2 className={typoClasses.subheader}>Song Selection</h2>

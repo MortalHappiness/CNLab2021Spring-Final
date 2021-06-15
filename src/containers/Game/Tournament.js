@@ -47,7 +47,7 @@ export default function Tournament({
         display="flex"
         flexDirection="column"
         flexWrap="wrap"
-        className={backgroundClasses.dark}
+        className={backgroundClasses.main}
       >
         <div>
           <h2 className={typoClasses.subheader}>{title}</h2>

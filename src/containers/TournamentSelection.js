@@ -39,7 +39,7 @@ export default function TournamentSelection() {
       height="95vh"
       display="flex"
       flexDirection="column"
-      className={backgroundClasses.dark}
+      className={backgroundClasses.main}
     >
       <h2 className={typoClasses.subheader}>Tournament Selection</h2>
       <div className={tourLayoutClasses.root}>
