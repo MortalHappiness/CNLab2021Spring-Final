@@ -30,7 +30,7 @@ export default function HomePage() {
       .then((res) => res.json())
       .then((json) => {
         const tours = json.data;
-        const tourID = tours[randint(0, tours.length+1)].id;
+        const tourID = tours[randint(0, tours.length - 1)].id;
         history.push(`/Tour/${tourID}`);
       })
       .catch((e) => console.error(e));

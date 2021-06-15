@@ -12,7 +12,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import { useTypoStyles, useBackgroundStyles } from "../../styles";
 import { useVideoStyles } from "../../components/VideoStyle.js";
-import { grey } from '@material-ui/core/colors';
+import { grey } from "@material-ui/core/colors";
 
 const uselyricStyles = makeStyles({
   main: {
@@ -69,7 +69,7 @@ const useLyricsBoxStyles = makeStyles({
     flexDirection: "column",
     justifyContent: "center",
     borderRadius: 50,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   transparent: {
     marginTop: "2%",
@@ -213,10 +213,11 @@ export default function Song({ song, setState, handleFinished }) {
           <div id="player" className={VideoStyle.main} />
           {isNotStart && (
             <IconButton variant="secondary" onClick={playVideo}>
-              <PlayCircleOutlineIcon style={{ fontSize: 100, color: grey[50] }} />
+              <PlayCircleOutlineIcon
+                style={{ fontSize: 100, color: grey[50] }}
+              />
             </IconButton>
           )}
-
 
           <Typography variant="subtitle1" className={lyricStyles.front}>
             {prevLine}
@@ -229,7 +230,6 @@ export default function Song({ song, setState, handleFinished }) {
           <Typography variant="subtitle1" className={lyricStyles.behind}>
             {nextLine}
           </Typography>
-
 
           <ButtonGroup>
             {missLyrics && (
