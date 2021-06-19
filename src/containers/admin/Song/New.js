@@ -110,18 +110,14 @@ function CheckSongForm({
   const fetchTitle = useCallback(
     async (videoID) => {
       const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyAuBJUeyvZkZaXHFNSjamWMkJjhk27Ccb0&part=snippet&id=${videoID}`
+        `${SERVER_URL}/api/game/youtube/title?url=https://youtube.com/watch?v=${videoID}`
       );
       const json = await res.json();
       if (!res.ok) {
-        setError(json.error.message);
+        setError(json.msg);
         return false;
       }
-      if (!json.pageInfo.totalResults) {
-        setError("No results");
-        return false;
-      }
-      setTitle(json.items[0].snippet.title);
+      setTitle(json.data);
       return true;
     },
     [setTitle]
